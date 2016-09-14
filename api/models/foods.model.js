@@ -47,10 +47,6 @@ var foodSchema = new mongoose.Schema({
 	},
 	reviews: [reviewsSchema],
 	ingredients: [ingredientSchema],
-	directions: {
-		tpye: String,
-		required: true
-	},
 	created_user: {
 		type: String,
 		required: true

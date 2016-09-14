@@ -6,7 +6,7 @@ const reviewsController = require('../controllers/reviews.controller')
 // Food Route
 router
 	.route('/foods')
-	.get(foodsController.foodsGetAll)
+	.get(foodsController.foodsGetAll) 
 	.post(foodsController.foodsAddOne)
 
 router
