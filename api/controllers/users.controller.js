@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
 const User = mongoose.model('User');
+
 
 function handleResStatus(err, req, res, doc){	
 	if(err){
@@ -28,7 +30,7 @@ module.exports.register = (req, res) => {
 	User.create({
 		username: username,
 		name: name,
-		password: password
+		password: bcrypt.hashSync(password, bcrypt.genSaltSync(10))
 	}, (err, createdUser)=>{
 		handleResStatus(err, req, res, createdUser);
 	})
@@ -42,7 +44,13 @@ module.exports.login = (req, res) => {
 		username: username
 	}, (err, foundUser)=>{
 		if(foundUser){
-			handleResStatus(err, req, res, foundUser);	
+			if(bcrypt.compareSync(password, foundUser.password)){
+				handleResStatus(err, req, res, foundUser);	
+			} else {
+				res.status(401).json({message: 'Unauthorised'})
+			}
+			
+
 		} else {
 			handleResStatus(err, req, res);
 		}
