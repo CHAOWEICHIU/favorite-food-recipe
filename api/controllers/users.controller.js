@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
+const jwt = require('jsonwebtoken');
 const User = mongoose.model('User');
 
 
@@ -45,17 +46,33 @@ module.exports.login = (req, res) => {
 	}, (err, foundUser)=>{
 		if(foundUser){
 			if(bcrypt.compareSync(password, foundUser.password)){
-				handleResStatus(err, req, res, foundUser);	
+				let token = jwt.sign({ name: foundUser.name }, 'secret', { expiresIn: 3600 });
+				handleResStatus(err, req, res, {success:true, token: token});
 			} else {
 				res.status(401).json({message: 'Unauthorised'})
 			}
-			
-
 		} else {
 			handleResStatus(err, req, res);
 		}
 		
 	})
+}
+
+module.exports.authenticate = (req, res, next) => {
+	var headerExists = req.headers;
+	if(headerExists){
+		let token = req.headers.authorization.split(' ')[1];
+		jwt.verify(token, 'secret', (err, decoded)=>{
+			if(err){
+				res.status(401).json({message: err});
+			} else {
+				req.user = decoded.name;
+				next();
+			}
+		})
+	} else {
+		res.status(403).json({message: 'No token provided'})
+	}
 }
 
 

@@ -16,6 +16,7 @@ function handleResStatus(err, req, res, doc){
 
 // GET
 module.exports.foodsGetAll = (req, res) => {
+	console.log(`Requested by user: ${req.user}`)
 	Food
 		.find()
 		.exec((err, foods)=>{

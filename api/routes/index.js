@@ -7,7 +7,7 @@ const usersController = require('../controllers/users.controller');
 // Food Route
 router
 	.route('/foods')
-	.get(foodsController.foodsGetAll) 
+	.get(usersController.authenticate, foodsController.foodsGetAll) 
 	.post(foodsController.foodsAddOne)
 
 router
