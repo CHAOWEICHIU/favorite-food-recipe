@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const foodsController = require('../controllers/foods.controller')
-const reviewsController = require('../controllers/reviews.controller')
+const foodsController = require('../controllers/foods.controller');
+const reviewsController = require('../controllers/reviews.controller');
+const usersController = require('../controllers/users.controller');
 
 // Food Route
 router
@@ -27,6 +28,15 @@ router
 	.get(reviewsController.reviewsGetOne)
 	.put(reviewsController.reviewsUpdateOne)
 	.delete(reviewsController.reviewsDeleteOne)
+
+// Auth
+router
+	.route('/users/register')
+	.post(usersController.register)
+
+router
+	.route('/users/login')
+	.post(usersController.login)
 
 
 module.exports = router;
