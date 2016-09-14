@@ -1,3 +1,5 @@
+'use strict'
+
 var mongoose = require('mongoose');
 // Local 
 // var dbUrl = 'mongodb://localhost/fav-food-recipe'
