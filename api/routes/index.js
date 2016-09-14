@@ -19,7 +19,7 @@ router
 // Food's reviews route
 router
 	.route('/foods/:foodId/reviews')
-	.get(reviewsController.reviewsGetAll)
+	.get(reviewsController.reviewsGetAll) 
 	.post(reviewsController.reviewsAddOne)
 
 router

@@ -1,6 +1,22 @@
 const mongoose = require('mongoose');
 const Food = mongoose.model('Food');
 
+
+function handleResStatus(err, req, res, doc){	
+	if(err){
+		console.log('err')
+		res.status(500).send(err);
+	} else if(!doc){
+		console.log('!doc')
+		res.status(404).send('not found')
+	} 
+
+	if(doc !== 'undefined'){
+		res.status(200).json({message: doc})
+	}
+}
+
+
 module.exports.reviewsGetAll = (req, res)=>{
 	var foodId = req.params.foodId;
 	Food
@@ -8,10 +24,11 @@ module.exports.reviewsGetAll = (req, res)=>{
 		.select('reviews')
 		.exec((err, food)=>{
 			if(err){
-				res.status(404).send(err)
+				handleResStatus(err, req, res)
 			} else {
-				res.status(200).json(food.reviews)
+				handleResStatus(err, req, res, food.reviews)
 			}
+			
 		})
 }
 
@@ -23,10 +40,9 @@ module.exports.reviewsGetOne = (req, res)=>{
 		.select('reviews')
 		.exec((err, food)=>{
 			if(err){
-				res.status(404).send(err)
+				handleResStatus(err, req, res)
 			} else {
-				var review = food.reviews.id(reviewId)
-				res.status(200).json(review)
+				handleResStatus(err, req, res, food.reviews.id(reviewId))
 			}
 		})
 }
@@ -39,38 +55,21 @@ var _addReview = (req, res, food)=>{
 	})
 
 	food.save((err,updatedFood)=>{
-		if(err){
-			res.status(300).send(err)
-		} else {
-			res.status(201)
-				.json(updatedFood.reviews[updatedFood.reviews.length - 1])
-		}
+		handleResStatus(err, req, res, updatedFood.reviews[updatedFood.reviews.length - 1])
 	})
 }
 
 module.exports.reviewsAddOne = (req, res)=>{
 	var foodId = req.params.foodId;
+	console.log(foodId)
 	Food.findById(foodId)
 		.select('reviews')
 		.exec((err, food)=>{
-			if(err){
-				console.log('Error finding food')
-				res.status(500).send('Error finding food')
-			} else if (!food){
-				res.status(500).send('Food not found')
-			} 
-
 			if(food){
-				console.log('_addReview')
 				_addReview(req, res, food)
 			} else {
-				res
-					.status(response.status)
-					.json(response)	
+				handleResStatus(err, req, res)
 			}
-
-			
-
 		})
 }
 
@@ -84,83 +83,48 @@ module.exports.reviewsDeleteOne = (req, res) => {
 		.select('reviews')
 		.exec((err, food)=>{
 			if(err){
-				res.status(500).send(err);
-			} else if (!food){
-				res.status(404).send('Food not found')
-			} else {
+				console.log('first err')
+				handleResStatus(err, req, res)
+			}  else {
 				thisReview = food.reviews.id(reviewId)
 				if(!thisReview){
-					res.status(404).send('Review not found')
+					handleResStatus(err, req, res)
 				} else {
-					food.reviews.id(reviewId).remove()
+					food.reviews.id(reviewId).remove();
 					food.save((err, updatedFood)=>{
-						if(err){ 
-							res.status(500).send(err)
-						} else {
-							console.log('removed review successfully')
-							res.status(204).json()
-						}
-					})
+						handleResStatus(err, req, res, updatedFood)
+					})	
 				}
 			}
 		})
 }
 
 module.exports.reviewsUpdateOne = (req, res)=>{
+	console.log('start to update review')
 	var foodId = req.params.foodId;
 	var reviewId = req.params.reviewId;
-  	
-
   	Food
 		.findById(foodId)
 		.select('reviews')
 		.exec(function(err, food) {
 		  var thisReview;
-		  var response = {
-		    status : 200,
-		    message : {}
-		  };
+		  
 		  if (err) {
-		    console.log("Error finding food");
-		    response.status = 500;
-		    response.message = err;
+		    handleResStatus(err, req, res)
 		  } else if(!food) {
-		    console.log("Food id not found in database", id);
-		    response.status = 404;
-		    response.message = {
-		      "message" : "Food ID not found " + id
-		    };
+		    handleResStatus(err, req ,res)
 		  } else {
-		    // Get the review
 		    thisReview = food.reviews.id(reviewId);
-		    // If the review doesn't exist Mongoose returns null
 		    if (!thisReview) {
-		      response.status = 404;
-		      response.message = {
-		        "message" : "Review ID not found " + reviewId
-		      };
+		    	handleResStatus(err, req, res)
+		    } else {
+				thisReview.username = req.body.username;
+			    thisReview.stars = parseInt(req.body.stars, 10);
+			    thisReview.review = req.body.review;
+			    food.save((err, updatedFood)=>{
+			    	handleResStatus(err, req, res, updatedFood)
+			    })
 		    }
-		  }
-		  if (response.status !== 200) {
-		    res
-		      .status(response.status)
-		      .json(response.message);
-		  } else {
-		    thisReview.username = req.body.username;
-		    thisReview.stars = parseInt(req.body.stars, 10);
-		    thisReview.review = req.body.review;
-		    food.save(function(err) {
-		      if (err) {
-		        res
-		          .status(500)
-		          .json(err);
-		      } else {
-		        console.log('here')
-		        res
-		          .status(204)
-		          .send('updated successfully')
-		      }
-		    });
 		  }
 		});
 }
