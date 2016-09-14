@@ -3,17 +3,17 @@ const mongoose = require('mongoose');
 var reviewsSchema = new mongoose.Schema({
 	username: {
 		type: String,
-		require: true
+		required: true
 	},
 	stars: {
 		type: Number,
 		min:0,
 		max:5,
-		require: true
+		required: true
 	},
 	review: {
 		type:String,
-		require:true
+		required:true
 	},
 	created_at: {
 		type: Date,
@@ -23,29 +23,34 @@ var reviewsSchema = new mongoose.Schema({
 
 var ingredientSchema = new mongoose.Schema({
 	name:{
-		type: String
-		// require: true
+		type: String,
+		required: true
 	},
 	gram:{
-		type: Number
-		// require: true
+		type: Number,
+		required: true
 	}
 })
 
 var foodSchema = new mongoose.Schema({
 	name: {
 		type: String,
-		require: true
+		required: true
 	},
-	views: Number,
-	description: String,
-	reviews: [String],
+	views: {
+		type: Number,
+		"default": 0
+	},
+	description: {
+		type: String,
+		required: true
+	},
 	reviews: [reviewsSchema],
 	ingredients: [ingredientSchema],
 	directions: [String],
 	created_user: {
 		type: String,
-		require: true
+		required: true
 	},
 	created_at: {
 		type: Date,
