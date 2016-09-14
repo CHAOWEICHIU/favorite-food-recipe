@@ -1,12 +1,25 @@
 const mongoose = require('mongoose');
 const Food = mongoose.model('Food');
 
+// re-useable function
+function handleResStatus(err, req, res, doc){	
+	if(err){
+		res.status(500).send(err);
+	} else if(!doc){
+		res.status(404).send('not found')
+	} 
+
+	if(doc !== 'undefined'){
+		res.status(200).json({message: doc})
+	}
+}
+
 // GET
 module.exports.foodsGetAll = (req, res) => {
 	Food
 		.find()
 		.exec((err, foods)=>{
-			handleAfterExec(err, req, res, foods);
+			handleResStatus(err, req, res, foods);
 		})
 }
 module.exports.foodsGetOne = (req, res) => {
@@ -14,7 +27,8 @@ module.exports.foodsGetOne = (req, res) => {
 	Food
 		.findById(foodId)
 		.exec((err, food)=>{
-			handleAfterExec(err, req, res, food)
+			console.log(err)
+			handleResStatus(err, req, res, food)
 		})
 }
 
@@ -27,18 +41,10 @@ module.exports.foodsAddOne = (req, res) => {
 			description: req.body.description,
 			created_user: req.body.created_user
 		}, (err, food)=>{
-			handleAfterExec(err, req, res, food);
+			handleResStatus(err, req, res, food);
 		})		
 }
-function handleAfterExec(err, req, res, doc){	
-	if(err){
-		res.status(500).send(err);
-	} else if(!doc){
-		res.status(404).send('not found')
-	} else { 
-		res.status(200).json({message: doc})
-	};
-}
+
 // UPDATE
 module.exports.foodsUpdateOne = (req, res) => {
 	var foodId = req.params.foodId;
@@ -58,7 +64,7 @@ module.exports.foodsUpdateOne = (req, res) => {
 				food.created_user = req.body.created_user
 
 				food.save((err, updatedFood)=>{
-					handleAfterExec(err, req, res, updatedFood)
+					handleResStatus(err, req, res, updatedFood)
 				})
 			}
 		})
@@ -72,9 +78,9 @@ module.exports.foodsDeleteOne = (req, res) => {
 		.remove()
 		.exec((err, deleted)=>{
 			if(deleted.result.n == 0){
-				handleAfterExec(err, req, res, `${foodId} not found`)	
+				handleResStatus(err, req, res, `${foodId} not found`)	
 			} else {
-				handleAfterExec(err, req, res, 'successfully deleted')	
+				handleResStatus(err, req, res, 'successfully deleted')	
 			}
 		})
 
