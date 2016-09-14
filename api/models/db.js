@@ -1,5 +1,8 @@
 var mongoose = require('mongoose');
-var dbUrl = 'mongodb://localhost/fav-food-recipe'
+// Local 
+// var dbUrl = 'mongodb://localhost/fav-food-recipe'
+// mongolab
+var dbUrl = 'mongodb://cw:cw@ds029456.mlab.com:29456/fav-food-recipe'
 
 
 
