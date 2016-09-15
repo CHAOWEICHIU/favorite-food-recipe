@@ -1,0 +1,43 @@
+<br><br><br><br>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 btn"
+			id="preview" ng-repeat="food in vm.foods" ng-click="vm.linkTo(food._id)">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4>{{ food.name }}</h4>
+					<!-- <h5 class="text-muted">by {{ food.created_user }}</h5> -->
+				</div>
+				<div class="panel-body">
+					<img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Foods_(cropped).jpg" 
+						class="img-responsive">	
+					<br>
+					{{ food.description }}
+					
+					
+					<hr>
+					<br>
+
+					<div class="row">
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+							<span class="glyphicon glyphicon-user"></span> {{ food.views }}		
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+							<span class="glyphicon glyphicon-heart-empty"></span> 2<br>		
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- <div class="panel panel-success">
+	<div class="panel-heading">
+		<h3 class="panel-title">Panel success</h3>
+	</div>
+	<div class="panel-body">
+	Panel content
+	</div>
+</div> -->
