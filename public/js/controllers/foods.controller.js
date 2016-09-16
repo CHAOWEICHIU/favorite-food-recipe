@@ -1,6 +1,7 @@
 angular.module('myApp')
 	.controller('FoodsCtrl', FoodsCtrl)
 	.controller('FoodCtrl', FoodCtrl)
+	.controller('FoodsAddCtrl', FoodsAddCtrl)
 
 function FoodsCtrl($scope, $location, foodsDataFactory){
 	var vm = this;
@@ -52,10 +53,9 @@ function FoodCtrl($routeParams, foodsDataFactory, $http, $route){
 		}).then(()=>{
 			$("#reviews").append('<li></li>')
 		})
-		
-		
+	}	
+}
 
-		
-	}
+function FoodsAddCtrl(){
 	
 }
