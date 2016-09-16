@@ -2,15 +2,20 @@ angular.module('myApp')
 	.controller('FoodsCtrl', FoodsCtrl)
 	.controller('FoodCtrl', FoodCtrl)
 
-function FoodsCtrl($location, foodsDataFactory){
+function FoodsCtrl($scope, $location, foodsDataFactory){
 	var vm = this;
 	
+
+	$scope.$watch('searchInfo', (newV, oldV)=>{
+		vm.searchInfo = newV
+	})
+
 	// Get all foods from API
 	foodsDataFactory.foodsGetAll().then((response)=>{
 		vm.foods = response.message;
 	})
-	
-	
+	vm.title = 'giiii'
+	console.log('foods')
 	vm.linkTo = function(foodId){
 		// link to the food
 		$location.path('/foods/'+foodId)
