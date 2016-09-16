@@ -2,6 +2,18 @@
 
 const mongoose = require('mongoose');
 
+var stepsSchema = new mongoose.Schema({
+	stepNumber:{
+		type: Number,
+		required: true
+	},
+	stepName: {
+		type: String,
+		required: true
+	}
+
+})
+
 var reviewsSchema = new mongoose.Schema({
 	username: {
 		type: String,
@@ -49,6 +61,7 @@ var foodSchema = new mongoose.Schema({
 	},
 	reviews: [reviewsSchema],
 	ingredients: [ingredientSchema],
+	steps: [stepsSchema],
 	created_user: {
 		type: String,
 		required: true

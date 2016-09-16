@@ -4,12 +4,6 @@ const mongoose = require('mongoose');
 const Food = mongoose.model('Food');
 
 
-/*
-DELETE[ ]  /api/foods/:id/ingredients/:id
-
-Delete a specific ingredient
-*/
-
 
 function handleResStatus(err ,req, res, doc ,stauts){	
 	if(err){
