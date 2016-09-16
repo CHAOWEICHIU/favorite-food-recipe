@@ -5,7 +5,7 @@ const router = express.Router();
 const foodsController = require('../controllers/foods.controller');
 const reviewsController = require('../controllers/reviews.controller');
 const usersController = require('../controllers/users.controller');
-
+const ingredientsController = require('../controllers/ingredients.controller');
 // Food Route
 router
 	.route('/foods')
@@ -30,6 +30,18 @@ router
 	.get(reviewsController.reviewsGetOne)
 	.put(reviewsController.reviewsUpdateOne)
 	.delete(reviewsController.reviewsDeleteOne)
+
+// Food's ingredient route
+router
+	.route('/foods/:foodId/ingredients')
+	.get(ingredientsController.ingredientsGetAll) 
+	.post(ingredientsController.ingredientsAddOne);
+
+router
+	.route('/foods/:foodId/ingredients/:ingredientId')
+	.get(ingredientsController.ingredientsGetOne)
+	.put(ingredientsController.ingredientsUpdateOne)
+	.delete(ingredientsController.ingredientsDeleteOne)
 
 // Auth
 router
