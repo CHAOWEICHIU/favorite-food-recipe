@@ -15,4 +15,9 @@ function config($routeProvider){
 			controller: 'FoodCtrl',
 			controllerAs: 'vm'
 		})
+		.when('/register', {
+			templateUrl: 'views/register/register.html',
+			controller: 'RegisterCtrl',
+			controllerAs: 'vm'	
+		})
 }

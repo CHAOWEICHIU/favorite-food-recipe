@@ -23,7 +23,7 @@ function FoodsCtrl($location, foodsDataFactory){
 	}
 }
 
-function FoodCtrl($routeParams, foodsDataFactory){
+function FoodCtrl($routeParams, foodsDataFactory, $http, $route){
 	var vm = this 
 	var id = $routeParams.id
 
@@ -31,5 +31,26 @@ function FoodCtrl($routeParams, foodsDataFactory){
 	foodsDataFactory.foodsGetOne(id).then((response)=>{
 		vm.food = response.message;
 	})
+
+
+	vm.addReview = function(){
+		var reviewData = {
+			username: vm.username,
+			stars: vm.stars,
+			review: vm.review,
+		}
+		console.log(reviewData)
+		$http.post(`/api/foods/${id}/reviews`, reviewData).then(()=>{
+			foodsDataFactory.foodsGetOne(id).then((response)=>{
+				vm.food = response.message;
+			})
+		}).then(()=>{
+			$("#reviews").append('<li></li>')
+		})
+		
+		
+
+		
+	}
 	
 }

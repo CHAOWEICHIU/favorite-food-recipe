@@ -1,1 +1,49 @@
-<h1>{{vm.food}}</h1>
+<ul id="reviews"
+	ng-repeat="review in vm.food.reviews">
+	<li>{{ review.username }}: {{ review.stars }} {{ review.review }}</li>
+</ul>
+
+<div class="container">
+	<div class="row">
+		<form class="form-horizontal" 
+			name="vm.myForm" 
+			ng-submit="vm.addReview()">
+		<fieldset>
+			<div class="form-group">
+				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
+					<input type="text" 
+						required 
+						class="form-control" 
+						placeholder="Your Name"
+						ng-model="vm.username">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
+					<input type="text" 
+						class="form-control"  
+						ng-model="vm.stars"
+						placeholder="stars">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
+					<textarea class="form-control" 
+						rows="3" 
+						id="textArea" 
+						style="margin-top: 0px; margin-bottom: 0px; height: 110px;"
+						ng-model="vm.review">
+						
+					</textarea>
+				</div>
+			</div>
+			<button type="submit">Go!</button>
+		</fieldset>
+	</form>		
+	</div>
+</div>
+<p>
+<!-- {{ myForm.username }} -->
+<!-- {{ myForm.stars.$dirty }}
+{{ myForm.review.$dirty }} -->
+</p>
