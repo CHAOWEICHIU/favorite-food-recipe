@@ -10,7 +10,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li ng-class="vm.isActiveTab('/')"><a href="#/">Foods</a></li>
-        <li ng-class="vm.isActiveTab('/foods/add')"><a href="#/foods/add">Add Food</a></li>
+        <li ng-if="vm.isLoggedIn()" ng-class="vm.isActiveTab('/foods/add')"><a href="#/foods/add">Add Food</a></li>
         <!-- <li><a href="#">Your Fav Food</a></li>  -->
       </ul>
 
@@ -21,7 +21,7 @@
       </ul>
       <ul ng-if="vm.isLoggedIn()"
         class="nav navbar-nav navbar-right">
-        <li><a href="#/profile"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+        <!-- <li><a href="#/profile"><span class="glyphicon glyphicon-user"></span> Profile</a></li> -->
         <li><a class="btn" ng-click="vm.logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
     </div>

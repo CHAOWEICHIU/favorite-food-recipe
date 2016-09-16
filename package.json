@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/CHAOWEICHIU/favorite-food-recipe#readme",
   "dependencies": {
+    "angular-jwt": "^0.1.3",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
     "ejs": "^2.5.2",

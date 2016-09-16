@@ -15,8 +15,6 @@ function FoodsCtrl($scope, $location, foodsDataFactory){
 	foodsDataFactory.foodsGetAll().then((response)=>{
 		vm.foods = response.message;
 	})
-	vm.title = 'giiii'
-	console.log('foods')
 	vm.linkTo = function(foodId){
 		// link to the food
 		$location.path('/foods/'+foodId)
@@ -29,23 +27,30 @@ function FoodsCtrl($scope, $location, foodsDataFactory){
 	}
 }
 
-function FoodCtrl($routeParams, foodsDataFactory, $http, $route){
-	var vm = this 
-	var id = $routeParams.id
+function FoodCtrl($routeParams, foodsDataFactory, $http, $route, AuthFactory){
+	var vm = this;
+	var id = $routeParams.id;
+
+	vm.isLoggedIn = () => {
+		if(AuthFactory.isLoggedIn){
+			return true
+		} else {
+			return false
+		}
+	};
 
 	// Get the food from API
 	foodsDataFactory.foodsGetOne(id).then((response)=>{
 		vm.food = response.message;
 	})
 
-
 	vm.addReview = function(){
+		console.log(AuthFactory.loggedInUser)
 		var reviewData = {
-			username: vm.username,
+			username: AuthFactory.loggedInUser,
 			stars: vm.stars,
 			review: vm.review,
 		}
-		console.log(reviewData)
 		$http.post(`/api/foods/${id}/reviews`, reviewData).then(()=>{
 			foodsDataFactory.foodsGetOne(id).then((response)=>{
 				vm.food = response.message;

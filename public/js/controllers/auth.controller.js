@@ -3,7 +3,6 @@ angular.module('myApp')
 	.controller('LoginCtrl', LoginCtrl);
 
 function SignupCtrl($http){
-	console.log('signup ctrl')
 	var vm = this;
 
 	vm.registerUser = () => {
@@ -25,7 +24,7 @@ function SignupCtrl($http){
 	}
 }
 
-function LoginCtrl($window, AuthFactory, $http, $location){
+function LoginCtrl($window, AuthFactory, $http, $location, jwtHelper){
 	var vm = this;
 	
 	vm.isLoggedIn = () => {
@@ -44,8 +43,20 @@ function LoginCtrl($window, AuthFactory, $http, $location){
 			}
 			$http.post('api/users/login' ,user).then((response)=>{
 				if(response.data.message.success){
-					$window.sessionStorage.token = response.data.message.token;
+					// Token from back-end
+					var token = response.data.message.token
+					
+					// Get user by decoding token
+					var decodedToken = jwtHelper.decodeToken(token);
+					
+					// Add user and login status to true in factory
+					AuthFactory.loggedInUser = decodedToken.name;
 					AuthFactory.isLoggedIn = true;
+
+					// Add token to session
+					$window.sessionStorage.token = token
+					
+
 					vm.username = '';
 					vm.password = '';
 					$location.path('/')
@@ -59,12 +70,18 @@ function LoginCtrl($window, AuthFactory, $http, $location){
 	}
 
 	vm.logout = () => {
+		// remove token from session
 		delete $window.sessionStorage.token;
+		
+		// remove user and login status to false
 		AuthFactory.isLoggedIn = false;
+		AuthFactory.loggedInUser = '';
+
+		$location.path('/')
+		
 	}
 
 	vm.isActiveTab = (url) => {
-		
 		var currentPath = $location.path()
 		return (url === currentPath ? 'active' : '' )
 	}

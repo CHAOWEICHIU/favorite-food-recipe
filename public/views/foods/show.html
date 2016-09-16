@@ -1,9 +1,70 @@
-<ul id="reviews"
-	ng-repeat="review in vm.food.reviews">
-	<li>{{ review.username }}: {{ review.stars }} {{ review.review }}</li>
-</ul>
+<br><br><br>
+
+	
 
 <div class="container">
+<div class="jumbotron">
+	<div class="row text-center">
+		<h1>{{ vm.food.name }}</h1><br>
+		<div class="col-lg-8 col-md-10 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-1">
+			<img src="http://s3.amazonaws.com/etntmedia/media/images/ext/842849976/greasy-fast-food.jpg" class="img-responsive img-thumbnail">
+		</div>
+		<br>
+	</div>
+	<h5>{{ vm.food.description }}</h5>
+	<div class="text-right">
+		<h5>Created by {{ vm.food.created_user }} at {{ vm.food.created_at | date : format : 'fullDate'}}</h5>	
+	</div>
+	
+</div>
+</div>
+
+<div class="container">
+<div class="jumbotron">
+	<h2>Ingredient</h2>
+	<ul class="list-group">
+		<li class="list-group-item active">
+		<span class="badge">Gram</span>
+		Name
+		</li>
+		<li class="list-group-item" ng-repeat="ingredient in vm.food.ingredients">
+		<span class="badge">{{ ingredient.gram }}</span>
+		{{ ingredient.name }}
+		</li>
+	</ul>
+	<br>
+	
+	
+	<h2>Step</h2>
+	<ul class="list-group">
+		<li class="list-group-item active">
+		<span class="badge">Step</span>
+		Action
+		</li>
+		<li class="list-group-item" ng-repeat="step in vm.food.steps | orderBy: 'stepNumber'">
+		<span class="badge">{{ step.stepNumber }}</span>
+		{{ step.stepName }}
+		</li>
+	</ul>
+
+</div>
+</div>
+
+<div class="container">
+	<ul class="list-group">
+		<li class="list-group-item active">
+		<span class="badge">Name: Rate</span>
+		Comment
+		</li>
+		<li class="list-group-item" ng-repeat="review in vm.food.reviews">
+		<span class="badge">{{ review.username }}: {{ review.stars }}</span>
+		{{ review.review }}
+		</li>
+	</ul>
+</div>
+
+
+<div ng-if="vm.isLoggedIn()" class="container">
 	<div class="row">
 		<form class="form-horizontal" 
 			name="vm.myForm" 
@@ -12,18 +73,9 @@
 			<div class="form-group">
 				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
 					<input type="text" 
-						required 
-						class="form-control" 
-						placeholder="Your Name"
-						ng-model="vm.username">
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
-					<input type="text" 
 						class="form-control"  
 						ng-model="vm.stars"
-						placeholder="stars">
+						placeholder="stars (1~5)">
 				</div>
 			</div>
 			<div class="form-group">
@@ -32,17 +84,20 @@
 						rows="3" 
 						id="textArea" 
 						style="margin-top: 0px; margin-bottom: 0px; height: 110px;"
-						ng-model="vm.review">
+						ng-model="vm.review"
+						placeholder="What do you think about this?">
 					</textarea>
 				</div>
 			</div>
-			<button type="submit">Go!</button>
+			<div class="form-group">
+				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
+					<button class="btn btn-block" type="submit">Comment</button>
+				</div>
+			</div>
+
+			
 		</fieldset>
 	</form>		
 	</div>
 </div>
-<p>
-<!-- {{ myForm.username }} -->
-<!-- {{ myForm.stars.$dirty }}
-{{ myForm.review.$dirty }} -->
-</p>
+<br><br><br><br>
