@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-bottom" ng-controller="LoginCtrl as vm">
+<nav class="navbar navbar-default navbar-fixed-bottom" ng-controller="LoginCtrl as vm">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -13,7 +13,6 @@
         <li ng-if="vm.isLoggedIn()" ng-class="vm.isActiveTab('/foods/add')"><a href="#/foods/add">Add Food</a></li>
         <!-- <li><a href="#">Your Fav Food</a></li>  -->
       </ul>
-
       <ul ng-if="!vm.isLoggedIn()"
         class="nav navbar-nav navbar-right">
         <li ng-class="vm.isActiveTab('/signup')"><a href="#/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
@@ -21,7 +20,6 @@
       </ul>
       <ul ng-if="vm.isLoggedIn()"
         class="nav navbar-nav navbar-right">
-        <!-- <li><a href="#/profile"><span class="glyphicon glyphicon-user"></span> Profile</a></li> -->
         <li><a class="btn" ng-click="vm.logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
     </div>
