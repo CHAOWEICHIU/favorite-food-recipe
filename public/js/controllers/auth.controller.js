@@ -2,7 +2,30 @@ angular.module('myApp')
 	.controller('SignupCtrl', SignupCtrl)
 	.controller('LoginCtrl', LoginCtrl);
 
-function SignupCtrl($http){
+
+function userLogin($http, $window, AuthFactory, jwtHelper ,user){
+	$http.post('api/users/login' ,user).then((response)=>{
+		if(response.data.message.success){
+			// GET token from back-end
+			var token = response.data.message.token
+			
+			// Get user by decoding token
+			var decodedToken = jwtHelper.decodeToken(token);
+			
+			// Add user and login status to true in factory
+			AuthFactory.isLoggedIn = true;
+			AuthFactory.loggedInUser = decodedToken.name;
+
+			// Add token to session
+			$window.sessionStorage.token = token;			
+		}
+	}).catch((error)=>{
+		console.log(error)
+	})
+}
+
+
+function SignupCtrl($http, $window ,$location, AuthFactory, jwtHelper){
 	var vm = this;
 
 	vm.registerUser = () => {
@@ -11,12 +34,14 @@ function SignupCtrl($http){
 			name: vm.name,
 			password: vm.password
 		}
-		console.log(user)
 
 		$http.post('http://localhost:3000/api/users/register', user).then((response)=>{
-			console.log(response)
-			vm.message = 'Successfully created user';
-			vm.error = '';
+			
+			// login
+			userLogin($http, $window, AuthFactory ,jwtHelper ,user)
+			
+			// redirect to main page
+			$location.path('/');
 		}).catch((error)=>{
 			vm.message = '';
 			vm.error = error.data.message;
@@ -41,31 +66,12 @@ function LoginCtrl($window, AuthFactory, $http, $location, jwtHelper){
 				username: vm.username,
 				password: vm.password
 			}
-			$http.post('api/users/login' ,user).then((response)=>{
-				if(response.data.message.success){
-					// Token from back-end
-					var token = response.data.message.token
-					
-					// Get user by decoding token
-					var decodedToken = jwtHelper.decodeToken(token);
-					
-					// Add user and login status to true in factory
-					AuthFactory.loggedInUser = decodedToken.name;
-					AuthFactory.isLoggedIn = true;
-
-					// Add token to session
-					$window.sessionStorage.token = token
-					
-
-					vm.username = '';
-					vm.password = '';
-					$location.path('/')
-				}
-
-				
-			}).catch((error)=>{
-				console.log(error)
-			})
+			
+			// login
+			userLogin($http, $window, AuthFactory, jwtHelper, user);
+			
+			// redirect to main page
+			$location.path('/');
 		}
 	}
 
@@ -76,9 +82,8 @@ function LoginCtrl($window, AuthFactory, $http, $location, jwtHelper){
 		// remove user and login status to false
 		AuthFactory.isLoggedIn = false;
 		AuthFactory.loggedInUser = '';
-
-		$location.path('/')
 		
+		$location.path('/')
 	}
 
 	vm.isActiveTab = (url) => {
