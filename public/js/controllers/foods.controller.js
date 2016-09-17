@@ -39,10 +39,21 @@ function FoodCtrl($routeParams, foodsDataFactory, $http, $route, AuthFactory){
 		}
 	};
 
+	function countAverageStars(vm, food){
+		let totalFoods = food.reviews.length
+		let sum = food.reviews.reduce((sum, review)=> sum + review.stars, 0)
+		vm.averageStars = sum / totalFoods;
+	};
+	vm.averageStars;
 	// Get the food from API
 	foodsDataFactory.foodsGetOne(id).then((response)=>{
-		vm.food = response.message;
+		let food = response.message;
+		vm.food = food;
+		countAverageStars(vm, food);
+		
 	})
+
+	vm.hasSummited = false;
 
 	vm.addReview = function(){
 		console.log(AuthFactory.loggedInUser)
@@ -53,7 +64,12 @@ function FoodCtrl($routeParams, foodsDataFactory, $http, $route, AuthFactory){
 		}
 		$http.post(`/api/foods/${id}/reviews`, reviewData).then(()=>{
 			foodsDataFactory.foodsGetOne(id).then((response)=>{
-				vm.food = response.message;
+				let food = response.message
+				vm.food = food;
+				vm.stars = '';
+				vm.review = '';
+				vm.hasSummited = true;
+				countAverageStars(vm, food)
 			})
 		}).then(()=>{
 			$("#reviews").append('<li></li>')
