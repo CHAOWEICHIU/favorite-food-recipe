@@ -43,8 +43,7 @@ function SignupCtrl($http, $window ,$location, AuthFactory, jwtHelper){
 			// redirect to main page
 			$location.path('/');
 		}).catch((error)=>{
-			vm.message = '';
-			vm.error = error.data.message;
+			console.log(error)
 		})
 	}
 }
@@ -82,7 +81,7 @@ function LoginCtrl($window, AuthFactory, $http, $location, jwtHelper){
 		// remove user and login status to false
 		AuthFactory.isLoggedIn = false;
 		AuthFactory.loggedInUser = '';
-		
+
 		$location.path('/')
 	}
 
