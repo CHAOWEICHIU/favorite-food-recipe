@@ -3,7 +3,7 @@ angular.module('myApp')
 	.controller('LoginCtrl', LoginCtrl);
 
 
-function userLogin($http, $window, AuthFactory, jwtHelper ,user){
+function userLogin($http, $window, $location,AuthFactory, jwtHelper ,user, vm){
 	$http.post('api/users/login' ,user).then((response)=>{
 		if(response.data.message.success){
 			// GET token from back-end
@@ -18,9 +18,13 @@ function userLogin($http, $window, AuthFactory, jwtHelper ,user){
 
 			// Add token to session
 			$window.sessionStorage.token = token;			
-		}
-	}).catch((error)=>{
-		console.log(error)
+			$location.path('/');
+		} 
+	}, (failed)=>{
+		vm.error = 'Invalid password or user name';
+		vm.username = '';
+		vm.password = ''
+		$location.path('/login');
 	})
 }
 
@@ -38,17 +42,15 @@ function SignupCtrl($http, $window ,$location, AuthFactory, jwtHelper){
 		$http.post('http://localhost:3000/api/users/register', user).then((response)=>{
 			
 			// login
-			userLogin($http, $window, AuthFactory ,jwtHelper ,user)
+			userLogin($http, $window, $location,AuthFactory ,jwtHelper ,user)
 			
-			// redirect to main page
-			$location.path('/');
 		}).catch((error)=>{
 			console.log(error)
 		})
 	}
 }
 
-function LoginCtrl($window, AuthFactory, $http, $location, jwtHelper){
+function LoginCtrl($q ,$window, AuthFactory, $http, $location, jwtHelper){
 	var vm = this;
 	
 	vm.isLoggedIn = () => {
@@ -67,10 +69,8 @@ function LoginCtrl($window, AuthFactory, $http, $location, jwtHelper){
 			}
 			
 			// login
-			userLogin($http, $window, AuthFactory, jwtHelper, user);
+			userLogin($http, $window, $location, AuthFactory, jwtHelper, user, vm)
 			
-			// redirect to main page
-			$location.path('/');
 		}
 	}
 
