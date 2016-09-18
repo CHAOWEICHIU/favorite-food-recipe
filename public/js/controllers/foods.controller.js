@@ -2,6 +2,7 @@ angular.module('myApp')
 	.controller('FoodsCtrl', FoodsCtrl)
 	.controller('FoodCtrl', FoodCtrl)
 	.controller('FoodsAddCtrl', FoodsAddCtrl)
+	.controller('FoodsEditCtrl', FoodsEditCtrl)
 
 function FoodsCtrl($scope, $location, foodsDataFactory){
 	var vm = this;
@@ -49,7 +50,7 @@ function FoodCtrl($routeParams, foodsDataFactory, $http, $route, AuthFactory){
 	foodsDataFactory.foodsGetOne(id).then((response)=>{
 		let food = response.message;
 		vm.food = food;
-		countAverageStars(vm, food);
+		countAverageStars(vm, response.message);
 		
 	})
 
@@ -77,6 +78,30 @@ function FoodCtrl($routeParams, foodsDataFactory, $http, $route, AuthFactory){
 	}	
 }
 
-function FoodsAddCtrl(){
-	
+function FoodsAddCtrl(AuthFactory, $http, $location){
+	var vm = this;
+
+	vm.addFood = ()=>{
+		var food = {
+			name: vm.name,
+			description: vm.description,
+			created_user: AuthFactory.loggedInUser
+		}
+		$http.post('/api/foods',food).then((response)=>{
+			let id = response.data.message._id
+			$location.path(`/foods/${id}/edit`);
+		})
+	}
+
+}
+
+
+function FoodsEditCtrl($routeParams, foodsDataFactory){
+	var vm = this;
+	var id = $routeParams.id;
+	foodsDataFactory.foodsGetOne(id).then((response)=>{
+		let food = response.message;
+		vm.food = food;
+		console.log(food)
+	})
 }

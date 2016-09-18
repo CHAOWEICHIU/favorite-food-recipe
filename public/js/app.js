@@ -21,6 +21,14 @@ function config($routeProvider, $httpProvider){
 				restricted: true
 			}
 		})
+		.when('/foods/:id/edit', {
+			templateUrl: 'views/foods/edit.html',
+			controller: 'FoodsEditCtrl',
+			controllerAs: 'vm',
+			access: {
+				restricted: true
+			}
+		})
 		.when('/foods/:id', {
 			templateUrl: 'views/foods/show.html',
 			controller: 'FoodCtrl',

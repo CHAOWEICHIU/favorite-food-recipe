@@ -1,1 +1,42 @@
-<h1>Start to add food</h1>
+<h1 class="text-center">Add New Food</h1>
+<br><br><br>
+
+<div class="container">
+<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
+<form class="form-horizontal" 
+			name="vm.myForm" 
+			ng-submit="vm.addFood()">
+<fieldset>
+	<div class="form-group">
+		<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
+			<input type="text" 
+				required 
+				class="form-control" 
+				name="name"
+				placeholder="Name"
+				ng-model="vm.name">
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
+			<input type="text" 
+				required 
+				name="description"
+				class="form-control"  
+				ng-model="vm.description"
+				placeholder="Description">
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
+			<button class="btn btn-block" 
+				ng-class="vm.myForm.$valid?'btn-success':'disabled'"
+				type="submit">Add Food</button>	
+		</div>	
+	</div>
+	
+	
+</fieldset>
+</form>	
+</div>
+</div>

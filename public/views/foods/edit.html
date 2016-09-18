@@ -7,7 +7,12 @@
 <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
 <div class="jumbotron">
 	<div class="row text-center">
-		<h1>{{ vm.food.name | lowercase | capitalize }}</h1><br>
+		<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+		<div class="form-group">
+			<input class="form-control" type="text" name="name" ng-model="vm.food.name">	
+		</div>
+		</div>
+		<!-- <h1>{{ vm.food.name | lowercase | capitalize }}</h1><br> -->
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<img src="http://s3.amazonaws.com/etntmedia/media/images/ext/842849976/greasy-fast-food.jpg" class="img-responsive img-thumbnail">
 		</div>
@@ -86,7 +91,7 @@
 </div>
 
 <hr><br>
-<h1 class="text-center">Make A Comment</h1>
+<!-- <h1 class="text-center">Make A Comment</h1>
 <br>
 <div ng-if="vm.isLoggedIn()" class="container">
 <div class="row">
@@ -140,4 +145,4 @@
 </div>
 </div>
 </div>
-<br><br><br><br>
+<br><br><br><br> -->
