@@ -153,8 +153,8 @@ function FoodsEditCtrl($scope ,$routeParams, foodsDataFactory, $http){
 		$http.post(`/api/foods/${id}/ingredients`,ingredient).then((res)=>{
 			if(res.status === 201){
 				updateFood()
-				vm.gram = ''
-				vm.name = ''
+				vm.gram = '';
+				vm.name = '';
 			} else {
 				console.log(res)
 			}
