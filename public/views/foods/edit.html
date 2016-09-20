@@ -1,0 +1,116 @@
+
+<br><br><br>
+<!-- Basic information -->
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-md-8 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
+<div class="jumbotron">
+	<div class="row">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="vm.isUpdated">
+			<div class="alert alert-dismissible alert-info">
+			 	<button type="button" class="close" data-dismiss="alert">&times;</button>
+			  	Updated successfully!
+			</div>		
+		</div>
+
+		<form ng-submit="vm.updateInfo()" name="vm.myFormInfor">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="form-group">
+					<label>Food</label>
+					<input class="form-control" type="text" name="name" ng-model="vm.food.name" required>	
+				</div>
+			</div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="form-group">
+					<label>URL</label>
+					<input class="form-control" type="text" name="link" ng-model="vm.food.link" required>
+				</div>
+			</div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="form-group">
+					<label>Description</label>
+					<textarea class="form-control" type="text" name="description" ng-model="vm.food.description" required></textarea>
+				</div>
+			</div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<button type="submit" ng-class="vm.myFormInfor.$valid?'btn-success':'disabled'" class="btn btn-block">Update</button>
+			</div>
+		</form>
+		
+
+	</div>
+
+	
+
+
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Ingredient and  Instruction-->
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-md-8 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
+<div class="jumbotron">
+	<h2>Ingredient</h2>
+	<ul class="list-group">
+		<li class="list-group-item" ng-repeat="ingredient in vm.food.ingredients">
+			<span ng-click="vm.deleteIngredient(ingredient._id)" class="pull-left glyphicon glyphicon-remove text-danger"></span> 
+			&nbsp&nbsp
+			{{ ingredient.name }}
+			<span class="pull-right badge">{{ ingredient.gram }} g</span>	
+		</li>
+		<li class="list-group-item">
+			<form name="vm.myFormI" ng-submit="vm.addIngredient()" >
+				<input type="text" 
+					required 
+					id="stepName"
+					name="stepName" 
+					ng-model="vm.name"
+					placeholder="name"
+					autofocus>
+				<input type="number" 
+					required 
+					name="stepNumber" 
+					ng-model="vm.gram"
+					placeholder="gram">
+				<input type="submit" ng-class="vm.myFormI.$valid?'btn-success':'disabled'" class="btn btn-xs">	
+			</form>
+		</li>
+
+	<br>
+	
+	
+	<h2>Instruction</h2>
+	<ul class="list-group">
+		<li class="list-group-item" ng-repeat="step in vm.food.steps | orderBy: 'stepNumber'">
+			<span ng-click="vm.deleteInstruction(step._id)" class="pull-left glyphicon glyphicon-remove text-danger"></span> 
+			&nbsp&nbsp
+			{{ step.stepName }}
+			<span class="pull-right badge">Step {{ step.stepNumber }}</span>	
+		</li>
+		<li class="list-group-item">
+			<form name="vm.myForm" ng-submit="vm.addInstruction()" >
+				<input type="text" 
+					required 
+					id="stepName"
+					name="stepName" 
+					ng-model="vm.stepName"
+					placeholder="step name"
+					autofocus>
+				<input type="number" 
+					required 
+					name="stepNumber" 
+					ng-model="vm.stepNumber"
+					placeholder="step number">
+				<input type="submit" ng-class="vm.myForm.$valid?'btn-success':'disabled'" class="btn btn-xs">	
+			</form>
+		</li>
+	</ul>
+
+</div>
+</div>
+</div>
+</div>

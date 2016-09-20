@@ -1,49 +1,143 @@
-<ul id="reviews"
-	ng-repeat="review in vm.food.reviews">
-	<li>{{ review.username }}: {{ review.stars }} {{ review.review }}</li>
-</ul>
+<br><br><br>
+
+	
 
 <div class="container">
-	<div class="row">
-		<form class="form-horizontal" 
-			name="vm.myForm" 
-			ng-submit="vm.addReview()">
-		<fieldset>
-			<div class="form-group">
-				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
-					<input type="text" 
-						required 
-						class="form-control" 
-						placeholder="Your Name"
-						ng-model="vm.username">
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
-					<input type="text" 
-						class="form-control"  
-						ng-model="vm.stars"
-						placeholder="stars">
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
-					<textarea class="form-control" 
-						rows="3" 
-						id="textArea" 
-						style="margin-top: 0px; margin-bottom: 0px; height: 110px;"
-						ng-model="vm.review">
-						
-					</textarea>
-				</div>
-			</div>
-			<button type="submit">Go!</button>
-		</fieldset>
-	</form>		
+<div class="row">
+<div class="col-lg-8 col-md-8 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
+<div class="jumbotron">
+	<div class="row text-center">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<img ng-src="{{vm.food.link}}" class="img-responsive">
+		</div>
+		<div>
+			<!-- {{ vm.food.created_at | date : format : 'fullDate'}}
+			&nbsp&nbsp -->
+			<span style="color:gray">Created by</span>
+			&nbsp&nbsp
+			{{ vm.food.created_user | capitalize }}
+		</div>
+		<br>
+	</div>
+	<div class="well">{{ vm.food.description | capitalize }}</div>
+
+	<div class="text-right">
+		<div>
+			
+		</div>
+		
 	</div>
 </div>
-<p>
-<!-- {{ myForm.username }} -->
-<!-- {{ myForm.stars.$dirty }}
-{{ myForm.review.$dirty }} -->
-</p>
+</div>
+</div>
+</div>
+
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-md-8 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
+<div class="jumbotron">
+	<h2>Ingredient</h2>
+	<ul class="list-group">
+		<li class="list-group-item active">
+		<span class="badge">Gram</span>
+		Name
+		</li>
+		<li class="list-group-item" ng-repeat="ingredient in vm.food.ingredients">
+		<span class="badge">{{ ingredient.gram }}</span>
+		{{ ingredient.name }}
+		</li>
+	</ul>
+	<br>
+	
+	
+	<h2>Step</h2>
+	<ul class="list-group">
+		<li class="list-group-item active">
+		<span class="badge">Step</span>
+		Action
+		</li>
+		<li class="list-group-item" ng-repeat="step in vm.food.steps | orderBy: 'stepNumber'">
+		<span class="badge">{{ step.stepNumber }}</span>
+		{{ step.stepName }}
+		</li>
+	</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-md-8 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
+	<ul class="list-group">
+		<li class="list-group-item active">
+		<span class="badge">{{ vm.averageStars | number: 1}} / 5.0</span>
+		Evaluation
+		</li>
+		<li class="list-group-item" ng-repeat="review in vm.food.reviews">
+		<span class="badge">{{ review.username }}</span>
+		{{ review.review }}
+		</li>
+	</ul>
+</div>
+</div>
+</div>
+
+<hr><br>
+<h1 class="text-center">Make A Comment</h1>
+<br>
+<div ng-if="vm.isLoggedIn()" class="container">
+<div class="row">
+<div class="col-lg-8 col-md-8 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
+	<form class="form-horizontal" 
+			name="vm.myForm"
+			ng-submit="vm.addReview()">
+	<fieldset>
+		<div class="form-group">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<input type="number" 
+					class="form-control"  
+					ng-model="vm.stars"
+					name="stars"
+					ng-min="1"
+					ng-max="5"
+					required 
+					placeholder="stars (1~5)">
+				<div ng-show="vm.myForm.stars.$invalid && vm.myForm.stars.$dirty && !vm.hasSummited" class="alert alert-dismissible alert-danger">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>Oh snap!</strong>Please input 1 ~ 5
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<textarea class="form-control" 
+					rows="3" 
+					id="textArea" 
+					style="margin-top: 0px; margin-bottom: 0px; height: 110px;"
+					ng-model="vm.review"
+					name="review"
+					required
+					placeholder="What do you think about this?">
+				</textarea>
+				<div ng-show="vm.myForm.review.$invalid && vm.myForm.review.$dirty && !vm.hasSummited" class="alert alert-dismissible alert-danger">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>Oh snap! </strong>Please make a comment
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<button ng-class="vm.myForm.$valid? 'btn-success':'disabled'"
+					class="btn btn-block" type="submit">Comment</button>
+			</div>
+		</div>
+	</fieldset>
+	</form>		
+</div>
+</div>
+</div>
+<br><br><br><br>
