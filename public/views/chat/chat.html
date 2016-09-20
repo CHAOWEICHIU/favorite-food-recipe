@@ -1,6 +1,11 @@
 <form class="form-horizontal" name="vm.myForm" ng-submit="vm.sendMessage()">
 <div class="form-group">
-	<textarea class="form-control" name="msg" ng-model="vm.msg"></textarea>
+	<input type="text" class="form-control" name="msg" ng-model="vm.msg">
 </div>
-	<button type="submit"></button>
+	<button type="submit">Send Message</button>
 </form>
+
+
+<ul>
+	<li ng-repeat="message in vm.messages">{{message.msg}}</li>
+</ul>

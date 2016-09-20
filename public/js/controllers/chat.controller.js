@@ -1,15 +1,22 @@
 angular.module('myApp').controller('ChatCtrl', ChatCtrl)
 
-function ChatCtrl(socketio){
+function ChatCtrl($scope ,socketio){
 	var vm = this;
 
-	vm.message = ''
+	vm.messages = [
+		{'msg': 'hi'},
+		{'msg': 'cool'}
+	];
 	
 	vm.sendMessage = ()=>{
-		console.log(vm.msg)
+		vm.messages.push({msg:vm.msg})
+		socketio.emit('send msg', vm.msg)
+		vm.msg = ''
+		socketio.on('get msg', (data)=>{
+			
+			
+		})
 	}
-	socketio.on('chat', (msg)=>{
-
-	})
+	
 	console.log('ChatCtrl!')
 }
