@@ -85,6 +85,7 @@ function FoodsAddCtrl(AuthFactory, $http, $location){
 		var food = {
 			name: vm.name,
 			description: vm.description,
+			link: vm.link,
 			created_user: AuthFactory.loggedInUser
 		}
 		$http.post('/api/foods',food).then((response)=>{
@@ -96,12 +97,68 @@ function FoodsAddCtrl(AuthFactory, $http, $location){
 }
 
 
-function FoodsEditCtrl($routeParams, foodsDataFactory){
+function FoodsEditCtrl($scope ,$routeParams, foodsDataFactory, $http){
 	var vm = this;
 	var id = $routeParams.id;
-	foodsDataFactory.foodsGetOne(id).then((response)=>{
-		let food = response.message;
-		vm.food = food;
-		console.log(food)
-	})
+	vm.isUpdated = false;
+	function updateFood(){
+		foodsDataFactory.foodsGetOne(id).then((response)=>{
+			let food = response.message;
+			vm.food = food;
+		})
+	}
+	updateFood();
+	
+	vm.updateInfo = ()=>{
+		$http.put(`http://localhost:3000/api/foods/${id}`, vm.food).then((res)=>{
+			if(res.status === 200){
+				vm.isUpdated = true;	
+			}
+		})
+	}
+
+	vm.deleteInstruction = (stepId)=>{
+		$http.delete(`http://localhost:3000/api/foods/${id}/steps/${stepId}`).then((res)=>{
+			updateFood()
+		})
+	}
+
+	vm.deleteIngredient = (ingredientId)=>{
+		$http.delete(`http://localhost:3000/api/foods/${id}/ingredients/${ingredientId}`).then((res)=>{
+			updateFood()
+		})
+	}
+
+	vm.addInstruction = ()=>{
+		var step = {
+			stepNumber: vm.stepNumber,
+			stepName: vm.stepName
+		}
+		console.log(step)
+		$http.post(`http://localhost:3000/api/foods/${id}/steps`,step).then((res)=>{
+			if(res.status === 201){
+				updateFood()
+				vm.stepNumber +=1;
+				vm.stepName = '';
+			} else {
+				console.log(res)
+			}
+		})
+	}
+
+	vm.addIngredient = ()=>{
+		var ingredient = {
+			gram: vm.gram,
+			name: vm.name
+		}
+		$http.post(`http://localhost:3000/api/foods/${id}/ingredients`,ingredient).then((res)=>{
+			if(res.status === 201){
+				updateFood()
+				vm.gram = ''
+				vm.name
+			} else {
+				console.log(res)
+			}
+		})
+	}
 }

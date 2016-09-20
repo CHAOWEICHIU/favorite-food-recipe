@@ -55,6 +55,10 @@ var foodSchema = new mongoose.Schema({
 		type: Number,
 		"default": 0
 	},
+	link:{
+		type: String,
+		require: true
+	},
 	description: {
 		type: String,
 		required: true

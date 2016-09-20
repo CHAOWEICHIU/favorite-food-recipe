@@ -1,3 +1,9 @@
+<style>
+ #limit  {
+    width: 25px;
+    word-wrap: break-word;
+}
+</style>
 <cw-header-navbar></cw-header-navbar>
 <br><br><br><br>
 <p>{{ vm.searchInfo }}</p>
@@ -7,18 +13,13 @@
 			id="preview" ng-repeat="food in vm.foods | filter:{'name': vm.searchInfo}" ng-click="vm.linkTo(food._id)" >
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<h4>{{ food.name }}</h4>
+					<h4>{{ food.name | capitalize }}</h4>
 				</div>
 				<div class="panel-body">
-					<img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Foods_(cropped).jpg" 
+					<img style="height:300px" 
+						ng-src="{{food.link}}" 
 						class="img-responsive">	
-					<br>
-					{{ food.description }}
-					
-					
 					<hr>
-					<br>
-
 					<div class="row">
 						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
 							<span class="glyphicon glyphicon-user"></span> {{ food.views }}		
