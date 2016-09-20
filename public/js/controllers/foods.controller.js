@@ -134,7 +134,6 @@ function FoodsEditCtrl($scope ,$routeParams, foodsDataFactory, $http){
 			stepNumber: vm.stepNumber,
 			stepName: vm.stepName
 		}
-		console.log(step)
 		$http.post(`/api/foods/${id}/steps`,step).then((res)=>{
 			if(res.status === 201){
 				updateFood()
@@ -155,7 +154,7 @@ function FoodsEditCtrl($scope ,$routeParams, foodsDataFactory, $http){
 			if(res.status === 201){
 				updateFood()
 				vm.gram = ''
-				vm.name
+				vm.name = ''
 			} else {
 				console.log(res)
 			}
