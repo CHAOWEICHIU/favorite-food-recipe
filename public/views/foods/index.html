@@ -1,9 +1,3 @@
-<style>
- #limit  {
-    width: 25px;
-    word-wrap: break-word;
-}
-</style>
 <cw-header-navbar></cw-header-navbar>
 <br><br><br><br>
 <p>{{ vm.searchInfo }}</p>
@@ -16,8 +10,7 @@
 					<h4>{{ food.name | capitalize }}</h4>
 				</div>
 				<div class="panel-body">
-					<img style="height:300px" 
-						ng-src="{{food.link}}" 
+					<img ng-src="{{food.link}}" 
 						class="img-responsive">	
 					<hr>
 					<div class="row">
