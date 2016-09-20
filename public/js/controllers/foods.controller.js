@@ -110,7 +110,7 @@ function FoodsEditCtrl($scope ,$routeParams, foodsDataFactory, $http){
 	updateFood();
 	
 	vm.updateInfo = ()=>{
-		$http.put(`http://localhost:3000/api/foods/${id}`, vm.food).then((res)=>{
+		$http.put(`/api/foods/${id}`, vm.food).then((res)=>{
 			if(res.status === 200){
 				vm.isUpdated = true;	
 			}
@@ -118,13 +118,13 @@ function FoodsEditCtrl($scope ,$routeParams, foodsDataFactory, $http){
 	}
 
 	vm.deleteInstruction = (stepId)=>{
-		$http.delete(`http://localhost:3000/api/foods/${id}/steps/${stepId}`).then((res)=>{
+		$http.delete(`/api/foods/${id}/steps/${stepId}`).then((res)=>{
 			updateFood()
 		})
 	}
 
 	vm.deleteIngredient = (ingredientId)=>{
-		$http.delete(`http://localhost:3000/api/foods/${id}/ingredients/${ingredientId}`).then((res)=>{
+		$http.delete(`/api/foods/${id}/ingredients/${ingredientId}`).then((res)=>{
 			updateFood()
 		})
 	}
@@ -135,7 +135,7 @@ function FoodsEditCtrl($scope ,$routeParams, foodsDataFactory, $http){
 			stepName: vm.stepName
 		}
 		console.log(step)
-		$http.post(`http://localhost:3000/api/foods/${id}/steps`,step).then((res)=>{
+		$http.post(`/api/foods/${id}/steps`,step).then((res)=>{
 			if(res.status === 201){
 				updateFood()
 				vm.stepNumber +=1;
@@ -151,7 +151,7 @@ function FoodsEditCtrl($scope ,$routeParams, foodsDataFactory, $http){
 			gram: vm.gram,
 			name: vm.name
 		}
-		$http.post(`http://localhost:3000/api/foods/${id}/ingredients`,ingredient).then((res)=>{
+		$http.post(`/api/foods/${id}/ingredients`,ingredient).then((res)=>{
 			if(res.status === 201){
 				updateFood()
 				vm.gram = ''
