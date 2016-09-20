@@ -45,7 +45,10 @@ function SignupCtrl($http, $window ,$location, AuthFactory, jwtHelper){
 			userLogin($http, $window, $location,AuthFactory ,jwtHelper ,user)
 			
 		}).catch((error)=>{
+			vm.message = 'Email has been taken';
 			console.log(error)
+			vm.username = ''
+			vm.password = ''
 		})
 	}
 }
