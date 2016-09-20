@@ -13,6 +13,14 @@ function config($routeProvider, $httpProvider){
 				restricted: false
 			}
 		})
+		.when('/chat', {
+			templateUrl: 'views/chat/chat.html',
+			controller: 'ChatCtrl',
+			controllerAs: 'vm',
+			access: {
+				restricted: false
+			}
+		})
 		.when('/foods/add', {
 			templateUrl: 'views/foods/add.html',
 			controller: 'FoodsAddCtrl',
