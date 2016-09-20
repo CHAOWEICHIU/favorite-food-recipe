@@ -4,7 +4,7 @@ angular.module('myApp')
 
 
 function userLogin($http, $window, $location,AuthFactory, jwtHelper ,user, vm){
-	$http.post('api/users/login' ,user).then((response)=>{
+	$http.post('/api/users/login' ,user).then((response)=>{
 		if(response.data.message.success){
 			// GET token from back-end
 			var token = response.data.message.token
@@ -39,7 +39,7 @@ function SignupCtrl($http, $window ,$location, AuthFactory, jwtHelper){
 			password: vm.password
 		}
 
-		$http.post('http://localhost:3000/api/users/register', user).then((response)=>{
+		$http.post('/api/users/register', user).then((response)=>{
 			
 			// login
 			userLogin($http, $window, $location,AuthFactory ,jwtHelper ,user)
