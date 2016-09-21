@@ -1,6 +1,10 @@
 <br><br><br>
 
-	
+<div class="text-center" ng-show="vm.averageStars!==0">
+	<span style="font-size:50px" ng-repeat="a in vm.range(vm.averageStars) track by $index" class="glyphicon glyphicon-star"></span>
+	<span style="font-size:50px" ng-repeat="a in vm.range(5-vm.averageStars) track by $index" class="glyphicon glyphicon-star-empty"></span>
+</div> <!-- stars -->
+
 
 <div class="container">
 <div class="row">
@@ -11,8 +15,6 @@
 			<img ng-src="{{vm.food.link}}" class="img-responsive">
 		</div>
 		<div>
-			<!-- {{ vm.food.created_at | date : format : 'fullDate'}}
-			&nbsp&nbsp -->
 			<span style="color:gray">Created by</span>
 			&nbsp&nbsp
 			{{ vm.food.created_user | capitalize }}
@@ -20,17 +22,11 @@
 		<br>
 	</div>
 	<div class="well">{{ vm.food.description | capitalize }}</div>
+</div>
+</div>
+</div>
+</div> <!-- Basic information for food -->
 
-	<div class="text-right">
-		<div>
-			
-		</div>
-		
-	</div>
-</div>
-</div>
-</div>
-</div>
 
 <div class="container">
 <div class="row">
@@ -38,56 +34,78 @@
 <div class="jumbotron">
 	<h2>Ingredient</h2>
 	<ul class="list-group">
-		<li class="list-group-item active">
-		<span class="badge">Gram</span>
-		Name
-		</li>
 		<li class="list-group-item" ng-repeat="ingredient in vm.food.ingredients">
-		<span class="badge">{{ ingredient.gram }}</span>
-		{{ ingredient.name }}
+			<div class="row">
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+					<span class="badge">{{$index+1}}</span>
+				</div>
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+					<span>{{ ingredient.name }}</span>
+				</div>
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+					<span class="badge">{{ ingredient.gram }} g</span>
+				</div>
+			</div>
 		</li>
 	</ul>
 	<br>
-	
-	
 	<h2>Step</h2>
-	<ul class="list-group">
-		<li class="list-group-item active">
-		<span class="badge">Step</span>
-		Action
-		</li>
-		<li class="list-group-item" ng-repeat="step in vm.food.steps | orderBy: 'stepNumber'">
-		<span class="badge">{{ step.stepNumber }}</span>
-		{{ step.stepName }}
+	<ul class="list-group" ng-repeat="step in vm.food.steps | orderBy: 'stepNumber'">
+		<li class="list-group-item">
+			<div class="row">
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+					<span class="badge">{{$index+1}}</span>
+				</div>
+				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1"><h5>{{ step.stepName }}</h5></div>
+			</div>
 		</li>
 	</ul>
+</div>
+</div>
+</div>
+</div> <!-- Ingredient and steps -->
 
-</div>
-</div>
-</div>
-</div>
+<br><br>
 
 
-<div class="container">
+
+<div class="container" ng-show="vm.food.reviews.length == 0">
 <div class="row">
 <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
-	<ul class="list-group">
-		<li class="list-group-item active">
-		<span class="badge">{{ vm.averageStars | number: 1}} / 5.0</span>
-		Evaluation
-		</li>
-		<li class="list-group-item" ng-repeat="review in vm.food.reviews">
-		<span class="badge">{{ review.username }}</span>
-		{{ review.review }}
+	<h1 class="text-center">No Review</h1>
+</div>
+</div>
+</div>
+
+<div class="container" ng-show="vm.food.reviews.length !== 0">
+<div class="row">
+<div class="col-lg-8 col-md-8 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
+	<h1 class="text-center">Review</h1>
+	<ul class="list-group" ng-repeat="review in vm.food.reviews">
+		<li class="list-group-item">
+			<div class="row">
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+					{{ review.username | capitalize }}
+				</div>
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+					{{ review.review }}
+				</div>
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+					<span class="badge pull-right">{{ review.stars | number: 1}} / 5.0</span>
+					
+				</div>
+			</div>
 		</li>
 	</ul>
 </div>
 </div>
-</div>
+</div><!-- Reviews -->
+
+
+
 
 <div id="commentArea" ng-hide="vm.food.created_user === vm.loggedInUser || !vm.isLoggedIn()">
 <hr>
-<h1 class="text-center">Make A Comment</h1>
 <br>
 <div class="container">
 <div class="row">
@@ -133,7 +151,7 @@
 		<div class="form-group">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<button ng-class="vm.myForm.$valid? 'btn-success':'disabled'"
-					class="btn btn-block" type="submit">Comment</button>
+					class="btn btn-block" type="submit">Post Review</button>
 			</div>
 		</div>
 	</fieldset>
@@ -141,5 +159,7 @@
 </div>
 </div>
 </div>
-</div>
+</div> <!-- Comment Area -->
+
+
 <br><br>
