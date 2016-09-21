@@ -24,7 +24,6 @@ io.sockets.on('connection', (socket)=>{
 		io.sockets.emit('get msg', data)
 		console.log(data)
 	})
-	console.log(socket)
 })
 
 // Add middleware to console.log every request

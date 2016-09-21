@@ -18,7 +18,7 @@ function config($routeProvider, $httpProvider){
 			controller: 'ChatCtrl',
 			controllerAs: 'vm',
 			access: {
-				restricted: false
+				restricted: true
 			}
 		})
 		.when('/foods/add', {
