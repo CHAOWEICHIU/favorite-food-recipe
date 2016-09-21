@@ -31,7 +31,6 @@ function FoodsCtrl($scope, $location, foodsDataFactory){
 function FoodCtrl($routeParams, foodsDataFactory, $http, $route, AuthFactory){
 	var vm = this;
 	var id = $routeParams.id;
-
 	vm.isLoggedIn = () => {
 		if(AuthFactory.isLoggedIn){
 			return true
@@ -39,6 +38,7 @@ function FoodCtrl($routeParams, foodsDataFactory, $http, $route, AuthFactory){
 			return false
 		}
 	};
+	vm.loggedInUser = AuthFactory.loggedInUser
 
 	function countAverageStars(vm, food){
 		let totalFoods = food.reviews.length
@@ -48,8 +48,10 @@ function FoodCtrl($routeParams, foodsDataFactory, $http, $route, AuthFactory){
 	vm.averageStars;
 	// Get the food from API
 	foodsDataFactory.foodsGetOne(id).then((response)=>{
+		
 		let food = response.message;
 		vm.food = food;
+		console.log(vm.loggedInUser, vm.food.created_user)
 		countAverageStars(vm, response.message);
 		
 	})

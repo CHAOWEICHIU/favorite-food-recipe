@@ -85,10 +85,11 @@
 </div>
 </div>
 
-<hr><br>
+<div id="commentArea" ng-hide="vm.food.created_user === vm.loggedInUser || !vm.isLoggedIn()">
+<hr>
 <h1 class="text-center">Make A Comment</h1>
 <br>
-<div ng-if="vm.isLoggedIn()" class="container">
+<div class="container">
 <div class="row">
 <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
 	<form class="form-horizontal" 
@@ -140,4 +141,5 @@
 </div>
 </div>
 </div>
-<br><br><br><br>
+</div>
+<br><br>
