@@ -73,6 +73,10 @@ var foodSchema = new mongoose.Schema({
 	created_at: {
 		type: Date,
 		"default": Date.now()
+	},
+	likes: {
+		type: Number,
+		"default": 0
 	}
 
 });

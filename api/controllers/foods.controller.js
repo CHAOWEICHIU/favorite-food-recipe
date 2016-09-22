@@ -2,6 +2,8 @@
 
 const mongoose = require('mongoose');
 const Food = mongoose.model('Food');
+const User = mongoose.model('User');
+const Q = require('q');
 
 // re-useable function
 function handleResStatus(err, req, res, doc){	
@@ -18,12 +20,33 @@ function handleResStatus(err, req, res, doc){
 
 // GET
 module.exports.foodsGetAll = (req, res) => {
-	console.log(`Requested by user: ${req.user}`)
-	Food
-		.find()
-		.exec((err, foods)=>{
-			handleResStatus(err, req, res, foods);
+	function getAllUsers(){ return User.find({})}
+	function getAllFoods(){ return Food.find({})}
+	
+	var groupPromise = Q.all([ getAllUsers(), getAllFoods()])
+	groupPromise.then((data)=>{
+		let users = data[0];
+		let foods = data[1];
+		// count user's total like to each food
+		let mdFoods = foods.map((food)=>{
+			let countLikes = 0
+			users.forEach((user)=>{
+				if(user.likes.length != 0){
+					user.likes.forEach((like)=>{
+						if(like.foodId == food._id && like.like == true){
+							countLikes +=1
+						}
+					})
+				}
+			})
+			food.likes = countLikes;
+			return food;
 		})
+		return mdFoods;
+	}).then((foods)=>{
+		handleResStatus('', req, res, foods);
+	})
+
 }
 module.exports.foodsGetOne = (req, res) => {
 	var foodId = req.params.foodId;
