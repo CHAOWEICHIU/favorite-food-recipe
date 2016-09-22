@@ -15,7 +15,7 @@ function userLogin($http, $window, $location,AuthFactory, jwtHelper ,user, vm){
 			// Add user and login status to true in factory
 			AuthFactory.isLoggedIn = true;
 			AuthFactory.loggedInUser = decodedToken.name;
-
+			AuthFactory.loggedInUserId = decodedToken.id;
 			// Add token to session
 			$window.sessionStorage.token = token;			
 			$location.path('/');

@@ -14,10 +14,11 @@ function ChatCtrl($scope, AuthFactory, $route, $window){
 	}
 	socket.on('get msg', (data)=>{
 	function appendToChatroom(templateString){
+		console.log(templateString)
 		vm.isStarted = true;
 		$('#chatroom').prepend(templateString)
-		$scope.$digest()
-		$scope.$apply()
+		// $scope.$digest()
+		// $scope.$apply()
 	}	
 		if(data.user === vm.me){
 			let templateString = `

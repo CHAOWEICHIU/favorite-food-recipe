@@ -11,6 +11,12 @@
 <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
 <div class="jumbotron">
 	<div class="row text-center">
+		
+		<div id="likeSwitcher" ng-hide="!vm.isLoggedIn()">
+			<span ng-hide="vm.like == true" style="font-size:50px; color:gray;" class="btn glyphicon glyphicon-heart-empty" ng-click="vm.switchLike(true)"></span>
+			<span ng-show="vm.like == true" style="font-size:50px; color:white;" class="btn glyphicon glyphicon-heart" ng-click="vm.switchLike(false)"></span>	
+		</div> <!-- like switcher -->
+		
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<img ng-src="{{vm.food.link}}" class="img-responsive">
 		</div>
@@ -160,6 +166,5 @@
 </div>
 </div>
 </div> <!-- Comment Area -->
-
 
 <br><br>

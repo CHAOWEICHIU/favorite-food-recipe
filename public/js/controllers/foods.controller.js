@@ -4,6 +4,9 @@ angular.module('myApp')
 	.controller('FoodsAddCtrl', FoodsAddCtrl)
 	.controller('FoodsEditCtrl', FoodsEditCtrl)
 
+
+
+// Foods List Controller
 function FoodsCtrl($scope, $location, foodsDataFactory){
 	var vm = this;
 	
@@ -28,9 +31,21 @@ function FoodsCtrl($scope, $location, foodsDataFactory){
 	}
 }
 
-function FoodCtrl($routeParams, foodsDataFactory, $http, $route, AuthFactory){
-	var vm = this;
-	var id = $routeParams.id;
+
+
+
+// Food Show Controller
+function FoodCtrl($scope,$routeParams, foodsDataFactory, $http, $route, AuthFactory){
+	var vm = this,
+		id = $routeParams.id,
+		likes,
+	    likeIndex;
+
+	vm.loggedInUser = AuthFactory.loggedInUser
+	vm.hasSummited = false;
+
+
+	// check if log in or not
 	vm.isLoggedIn = () => {
 		if(AuthFactory.isLoggedIn){
 			return true
@@ -39,35 +54,37 @@ function FoodCtrl($routeParams, foodsDataFactory, $http, $route, AuthFactory){
 		}
 	};
 
-	vm.range = function(n) {
-        return new Array(n);
-    };
-
-	vm.loggedInUser = AuthFactory.loggedInUser
-
-	function countAverageStars(vm, food){
-		if(food.reviews.length === 0){
-			vm.averageStars = 0;
+	// init starting data point
+	$http.get(`/api/users/${AuthFactory.loggedInUserId}`).then((res)=>{
+		likes = res.data.message.likes;
+		likeIndex = likes.map(function(e) { return e.foodId; }).indexOf(id);
+		if(likeIndex === -1){
+			handleLikeStatus(likeIndex, false, id)
 		} else {
-			let totalFoods = food.reviews.length;
-			let sum = food.reviews.reduce((sum, review)=> sum + review.stars, 0)
-			vm.averageStars = Math.round(sum / totalFoods);
+			vm.like = likes[likeIndex].like;
 		}
-	};
-	
+	})
+
 	// Get the food from API
 	foodsDataFactory.foodsGetOne(id).then((response)=>{
-		
 		let food = response.message;
 		vm.food = food;
 		countAverageStars(vm, response.message);
-		
 	})
 
-	vm.hasSummited = false;
 
+
+	// like switcher
+	vm.switchLike = (boolean)=>{
+		$http.get(`/api/users/${AuthFactory.loggedInUserId}`).then((res)=>{
+			likes = res.data.message.likes;
+			likeIndex = likes.map(function(e) { return e.foodId; }).indexOf(id);
+			handleLikeStatus(likeIndex, boolean, id)
+		})	
+	}
+
+	// Add review function
 	vm.addReview = function(){
-		console.log(AuthFactory.loggedInUser)
 		var reviewData = {
 			username: AuthFactory.loggedInUser,
 			stars: vm.stars,
@@ -86,8 +103,47 @@ function FoodCtrl($routeParams, foodsDataFactory, $http, $route, AuthFactory){
 			$("#reviews").append('<li></li>')
 		})
 	}	
+
+	function handleLikeStatus(likeIndex, boolean, id){
+		// check if food like's data in User's DB
+		if(likeIndex === -1){
+			
+			// if no, add one
+			$http.post(`/api/users/${AuthFactory.loggedInUserId}/likes`,{foodId:id, like:boolean}).then((res)=>{
+				vm.like = boolean;
+			})
+			
+		} else {
+			
+			// if yes, update it accordingly
+			let updatedLike = {foodId: id, like:boolean};
+			$http.put(`/api/users/${AuthFactory.loggedInUserId}/likes`, updatedLike).then((res)=>{
+				vm.like = boolean;
+			})
+			
+		}
+	}
+
+
+	// for generating number of stars
+	vm.range = function(n) {
+        return new Array(n);
+    };
+	
+	function countAverageStars(vm, food){
+		if(food.reviews.length === 0){
+			vm.averageStars = 0;
+		} else {
+			let totalFoods = food.reviews.length;
+			let sum = food.reviews.reduce((sum, review)=> sum + review.stars, 0)
+			vm.averageStars = Math.round(sum / totalFoods);
+		}
+	};
 }
 
+
+
+// Add foods controller
 function FoodsAddCtrl(AuthFactory, $http, $location){
 	var vm = this;
 
@@ -107,6 +163,11 @@ function FoodsAddCtrl(AuthFactory, $http, $location){
 }
 
 
+
+
+
+
+// Edit Food Controller
 function FoodsEditCtrl($scope ,$routeParams, foodsDataFactory, $http){
 	var vm = this;
 	var id = $routeParams.id;

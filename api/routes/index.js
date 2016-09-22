@@ -7,6 +7,7 @@ const reviewsController = require('../controllers/reviews.controller');
 const usersController = require('../controllers/users.controller');
 const ingredientsController = require('../controllers/ingredients.controller');
 const stepsController = require('../controllers/steps.controller');
+const likesController = require('../controllers/likes.controller');
 // Food Route
 router
 	.route('/foods')
@@ -55,6 +56,15 @@ router
 	.put(stepsController.stepsUpdateOne)
 	.delete(stepsController.stepsDeleteOne)
 
+router
+	.route('/users/:userId/likes')
+	.get(likesController.likesGetAll)
+	.put(likesController.likeUpdateOne)
+	.post(likesController.likesAddOne)
+	
+router
+	.route('/users/:userId')
+	.get(usersController.usersGetOne)
 
 // Auth
 router

@@ -20,7 +20,14 @@ function handleResStatus(err, req, res, doc){
 	}
 }
 
-
+module.exports.usersGetOne = (req, res)=>{
+	let userId = req.params.userId
+	User
+		.findById(userId)
+		.exec((err, user)=>{
+			handleResStatus(err, req, res, user);
+		})
+}
 
 
 module.exports.register = (req, res) => {
@@ -48,7 +55,7 @@ module.exports.login = (req, res) => {
 	}, (err, foundUser)=>{
 		if(foundUser){
 			if(bcrypt.compareSync(password, foundUser.password)){
-				let token = jwt.sign({ name: foundUser.name }, 'secret', { expiresIn: 3600 });
+				let token = jwt.sign({ name: foundUser.name, id:foundUser._id }, 'secret', { expiresIn: 3600 });
 				handleResStatus(err, req, res, {success:true, token: token});
 			} else {
 				res.status(401).json({message: 'Unauthorised'})

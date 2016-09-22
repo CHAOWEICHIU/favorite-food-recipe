@@ -3,7 +3,8 @@ angular.module('myApp').factory('AuthFactory',AuthFactory);
 function AuthFactory(){
 	return {
 		auth: auth,
-		loggedInUser: loggedInUser
+		loggedInUser: loggedInUser,
+		loggedInUserId: loggedInUserId
 	}
 
 	var auth = {
@@ -11,4 +12,5 @@ function AuthFactory(){
 	}
 
 	var loggedInUser = '';
+	var loggedInUserId = '';
 }
