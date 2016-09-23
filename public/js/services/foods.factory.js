@@ -22,7 +22,6 @@ function foodsDataFactory($http){
 	function foodsAddOne(food){
 		return $http.post('/api/foods',food).then(compeleted).catch(failed)
 	}
-
 	function foodUpdate(foodId, updatedFood){
 		return $http.put(`/api/foods/${foodId}`, updatedFood).then(compeleted).catch(failed)
 	}

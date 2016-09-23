@@ -78,9 +78,10 @@ function run($rootScope, $location, $window, AuthFactory, jwtHelper){
 					
 		// Add user and login status to true in factory
 		AuthFactory.loggedInUser = decodedToken.name;
+		AuthFactory.loggedInUserId = decodedToken.id;
 	}
 	$rootScope.$on('$routeChangeStart', (event, nextRoute, previousRoute)=>{
-		if(nextRoute.access !=='undefined' && nextRoute.access.restricted && !$window.sessionStorage.token && !AuthFactory.isLoggedIn){
+		if(nextRoute.access !=='undefined' && nextRoute.access.restricted && !$window.sessionStorage.token && !AuthFactory.isLoggedIn && !AuthFactory.loggedInUserId){
 			event.preventDefault();
 			$location.path('/')
 		}

@@ -6,9 +6,42 @@ angular.module('myApp')
 	.controller('CollectionCtrl', CollectionCtrl)
 
 
-function CollectionCtrl(AuthFactory){
-	let vm = this;
+function CollectionCtrl($q ,AuthFactory, UsersDataFactory, foodsDataFactory, $location){
+	let vm = this,
+		userId = AuthFactory.loggedInUserId;
+
 	vm.search = ''
+	
+	// get User likes
+	$q.all([
+		UsersDataFactory.getUser(userId),
+		foodsDataFactory.foodsGetAll()
+	]).then((res)=>{
+		
+		vm.likedFood = res[0].message.likes.reduce((container, like)=> {
+			
+			// get what food the user like	
+			if(like.like == true){
+				container.push(like.foodId)
+				return container 
+			}
+			return container
+		}, []).reduce((container, likeId)=>{
+			
+			// associate user's food collection with real data
+			let foods = res[1].message;
+			let indexOfFood = foods.map((e)=>e._id).indexOf(likeId)
+			container.push(foods[indexOfFood])
+			return container
+		}, [])
+	})
+	
+	vm.linkTo = (foodId)=>{
+		$location.path('/foods/'+foodId)
+
+	}
+
+	
 	console.log(AuthFactory.loggedInUser)
 }
 
@@ -60,23 +93,32 @@ function FoodCtrl($scope,$routeParams, foodsDataFactory, $route, AuthFactory, Us
 		}
 	};
 
-	// init starting data point
-	UsersDataFactory.getUser(AuthFactory.loggedInUserId).then((res)=>{
-		likes = res.message.likes;
-		likeIndex = likes.map(function(e) { return e.foodId; }).indexOf(id);
-		if(likeIndex === -1){
-			handleLikeStatus(likeIndex, false, id)
-		} else {
-			vm.like = likes[likeIndex].like;
-		}
-	})
-
 	// Get the food from API
 	foodsDataFactory.foodsGetOne(id).then((response)=>{
 		let food = response.message;
 		vm.food = food;
 		countAverageStars(vm, response.message);
 	})
+
+
+	// if loggged in
+	if(vm.loggedInUser && AuthFactory.isLoggedIn, AuthFactory.loggedInUserId){
+		// init like starting point
+		UsersDataFactory.getUser(AuthFactory.loggedInUserId).then((res)=>{
+			
+			likes = res.message.likes;
+			likeIndex = likes.map(function(e) { return e.foodId; }).indexOf(id);
+			if(likeIndex === -1){
+				handleLikeStatus(likeIndex, false, id)
+			} else {
+				vm.like = likes[likeIndex].like;
+			}
+		})
+
+		
+	}
+	
+	
 
 
 
@@ -130,7 +172,6 @@ function FoodCtrl($scope,$routeParams, foodsDataFactory, $route, AuthFactory, Us
 			
 			// if yes, update it accordingly
 			let updatedLike = {foodId: id, like:boolean};
-			console.log('updated ')
 			UsersDataFactory.updateUserLikes(AuthFactory.loggedInUserId, updatedLike).then((res)=>{
 				vm.like = boolean;
 			})
