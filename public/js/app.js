@@ -18,7 +18,15 @@ function config($routeProvider, $httpProvider){
 			controller: 'ChatCtrl',
 			controllerAs: 'vm',
 			access: {
-				restricted: true
+				restricted: false
+			}
+		})
+		.when('/collection', {
+			templateUrl: 'views/foods/collection.html',
+			controller: 'CollectionCtrl',
+			controllerAs: 'vm',
+			access: {
+				restricted: false
 			}
 		})
 		.when('/foods/add', {

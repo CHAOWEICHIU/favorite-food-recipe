@@ -3,13 +3,19 @@ angular.module('myApp')
 	.controller('FoodCtrl', FoodCtrl)
 	.controller('FoodsAddCtrl', FoodsAddCtrl)
 	.controller('FoodsEditCtrl', FoodsEditCtrl)
+	.controller('CollectionCtrl', CollectionCtrl)
 
+
+function CollectionCtrl(AuthFactory){
+	let vm = this;
+	vm.search = ''
+	console.log(AuthFactory.loggedInUser)
+}
 
 
 // Foods List Controller
 function FoodsCtrl($scope, $location, foodsDataFactory){
 	var vm = this;
-	
 
 	$scope.$watch('searchInfo', (newV, oldV)=>{
 		vm.searchInfo = newV
@@ -23,11 +29,11 @@ function FoodsCtrl($scope, $location, foodsDataFactory){
 		// link to the food
 		$location.path('/foods/'+foodId)
 		
-		// +1 to the food views 
+		// add one view to food's views
 		var foundFood = $.grep(vm.foods, (e)=>{ return e._id == foodId; });
 		var updatedFood = foundFood[0];
 		updatedFood.views = updatedFood.views + 1;
-		foodsDataFactory.foodAddOneToViews(foodId, updatedFood)
+		foodsDataFactory.foodUpdate(foodId, updatedFood)
 	}
 }
 
@@ -35,7 +41,7 @@ function FoodsCtrl($scope, $location, foodsDataFactory){
 
 
 // Food Show Controller
-function FoodCtrl($scope,$routeParams, foodsDataFactory, $http, $route, AuthFactory){
+function FoodCtrl($scope,$routeParams, foodsDataFactory, $route, AuthFactory, UsersDataFactory){
 	var vm = this,
 		id = $routeParams.id,
 		likes,
@@ -55,8 +61,8 @@ function FoodCtrl($scope,$routeParams, foodsDataFactory, $http, $route, AuthFact
 	};
 
 	// init starting data point
-	$http.get(`/api/users/${AuthFactory.loggedInUserId}`).then((res)=>{
-		likes = res.data.message.likes;
+	UsersDataFactory.getUser(AuthFactory.loggedInUserId).then((res)=>{
+		likes = res.message.likes;
 		likeIndex = likes.map(function(e) { return e.foodId; }).indexOf(id);
 		if(likeIndex === -1){
 			handleLikeStatus(likeIndex, false, id)
@@ -76,8 +82,8 @@ function FoodCtrl($scope,$routeParams, foodsDataFactory, $http, $route, AuthFact
 
 	// like switcher
 	vm.switchLike = (boolean)=>{
-		$http.get(`/api/users/${AuthFactory.loggedInUserId}`).then((res)=>{
-			likes = res.data.message.likes;
+		UsersDataFactory.getUser(AuthFactory.loggedInUserId).then((res)=>{
+			likes = res.message.likes;
 			likeIndex = likes.map(function(e) { return e.foodId; }).indexOf(id);
 			handleLikeStatus(likeIndex, boolean, id)
 		})	
@@ -90,18 +96,25 @@ function FoodCtrl($scope,$routeParams, foodsDataFactory, $http, $route, AuthFact
 			stars: vm.stars,
 			review: vm.review,
 		}
-		$http.post(`/api/foods/${id}/reviews`, reviewData).then(()=>{
-			foodsDataFactory.foodsGetOne(id).then((response)=>{
-				let food = response.message
+		
+		// add one review to database
+		foodsDataFactory.foodAddOneReview(id, reviewData).then((res)=>{
+			
+			// get that review from database
+			foodsDataFactory.foodsGetOne(id).then((res)=>{
+				let food = res.message
 				vm.food = food;
 				vm.stars = '';
 				vm.review = '';
 				vm.hasSummited = true;
 				countAverageStars(vm, food)
 			})
+		
+		// add the review to view
 		}).then(()=>{
 			$("#reviews").append('<li></li>')
 		})
+
 	}	
 
 	function handleLikeStatus(likeIndex, boolean, id){
@@ -109,7 +122,7 @@ function FoodCtrl($scope,$routeParams, foodsDataFactory, $http, $route, AuthFact
 		if(likeIndex === -1){
 			
 			// if no, add one
-			$http.post(`/api/users/${AuthFactory.loggedInUserId}/likes`,{foodId:id, like:boolean}).then((res)=>{
+			UsersDataFactory.postUserLikes(AuthFactory.loggedInUserId, id, boolean).then((res)=>{
 				vm.like = boolean;
 			})
 			
@@ -117,7 +130,8 @@ function FoodCtrl($scope,$routeParams, foodsDataFactory, $http, $route, AuthFact
 			
 			// if yes, update it accordingly
 			let updatedLike = {foodId: id, like:boolean};
-			$http.put(`/api/users/${AuthFactory.loggedInUserId}/likes`, updatedLike).then((res)=>{
+			console.log('updated ')
+			UsersDataFactory.updateUserLikes(AuthFactory.loggedInUserId, updatedLike).then((res)=>{
 				vm.like = boolean;
 			})
 			
@@ -144,7 +158,7 @@ function FoodCtrl($scope,$routeParams, foodsDataFactory, $http, $route, AuthFact
 
 
 // Add foods controller
-function FoodsAddCtrl(AuthFactory, $http, $location){
+function FoodsAddCtrl(AuthFactory, $location, foodsDataFactory){
 	var vm = this;
 
 	vm.addFood = ()=>{
@@ -154,8 +168,9 @@ function FoodsAddCtrl(AuthFactory, $http, $location){
 			link: vm.link,
 			created_user: AuthFactory.loggedInUser
 		}
-		$http.post('/api/foods',food).then((response)=>{
-			let id = response.data.message._id
+		foodsDataFactory.foodsAddOne(food).then((res)=>{
+			console.log('add one food')
+			let id = res.message._id
 			$location.path(`/foods/${id}/edit`);
 		})
 	}
@@ -168,10 +183,11 @@ function FoodsAddCtrl(AuthFactory, $http, $location){
 
 
 // Edit Food Controller
-function FoodsEditCtrl($scope ,$routeParams, foodsDataFactory, $http){
+function FoodsEditCtrl($scope ,$routeParams, foodsDataFactory){
 	var vm = this;
 	var id = $routeParams.id;
 	vm.isUpdated = false;
+	
 	function updateFood(){
 		foodsDataFactory.foodsGetOne(id).then((response)=>{
 			let food = response.message;
@@ -181,22 +197,22 @@ function FoodsEditCtrl($scope ,$routeParams, foodsDataFactory, $http){
 	updateFood();
 	
 	vm.updateInfo = ()=>{
-		$http.put(`/api/foods/${id}`, vm.food).then((res)=>{
-			if(res.status === 200){
+		foodsDataFactory.foodUpdate(id, vm.food).then((res)=>{
+			if(res.message){
 				vm.isUpdated = true;	
 			}
 		})
 	}
 
 	vm.deleteInstruction = (stepId)=>{
-		$http.delete(`/api/foods/${id}/steps/${stepId}`).then((res)=>{
-			updateFood()
+		foodsDataFactory.foodDeleteStep(id, stepId).then(()=>{
+			updateFood();
 		})
 	}
 
 	vm.deleteIngredient = (ingredientId)=>{
-		$http.delete(`/api/foods/${id}/ingredients/${ingredientId}`).then((res)=>{
-			updateFood()
+		foodsDataFactory.foodDeleteIngredient(id, ingredientId).then(()=>{
+			updateFood();
 		})
 	}
 
@@ -205,13 +221,11 @@ function FoodsEditCtrl($scope ,$routeParams, foodsDataFactory, $http){
 			stepNumber: vm.stepNumber,
 			stepName: vm.stepName
 		}
-		$http.post(`/api/foods/${id}/steps`,step).then((res)=>{
-			if(res.status === 201){
+		foodsDataFactory.foodAddStep(id, step).then((res)=>{
+			if(res.message){
 				updateFood()
 				vm.stepNumber +=1;
 				vm.stepName = '';
-			} else {
-				console.log(res)
 			}
 		})
 	}
@@ -221,13 +235,11 @@ function FoodsEditCtrl($scope ,$routeParams, foodsDataFactory, $http){
 			gram: vm.gram,
 			name: vm.name
 		}
-		$http.post(`/api/foods/${id}/ingredients`,ingredient).then((res)=>{
-			if(res.status === 201){
+		foodsDataFactory.foodAddIngredient(id, ingredient).then((res)=>{
+			if(res.message){
 				updateFood()
 				vm.gram = '';
 				vm.name = '';
-			} else {
-				console.log(res)
 			}
 		})
 	}
