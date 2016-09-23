@@ -4,7 +4,6 @@ angular.module('myApp')
 	.controller('ProfileCtrl', ProfileCtrl)
 
 function ProfileCtrl($location, $window, AuthFactory){
-	console.log('ProfileCtrl')
 	var vm = this;
 
 	vm.linkTo = (url) => {

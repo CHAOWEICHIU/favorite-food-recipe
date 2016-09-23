@@ -26,7 +26,7 @@ function config($routeProvider, $httpProvider){
 			controller: 'CollectionCtrl',
 			controllerAs: 'vm',
 			access: {
-				restricted: false
+				restricted: true
 			}
 		})
 		.when('/foods/add', {

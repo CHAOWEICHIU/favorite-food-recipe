@@ -18,9 +18,8 @@ span.glyphicon-lg {
 }
 </style>
 <div id="footerr" class="container" ng-controller="LoginCtrl as vm">
-    <div class="row no-gutter">
-
-      
+    <!-- Show for user logged in-->
+    <div class="row no-gutter" ng-if="vm.isLoggedIn()">      
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
         <button class="btn btn-primary btn-lg btn-block sharp"
           ng-class="vm.isActiveTab('/')"
@@ -43,12 +42,6 @@ span.glyphicon-lg {
       </div>
 
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-        <button class="btn btn-primary btn-lg btn-block sharp"
-          ng-class="vm.isActiveTab('/login')"
-          ng-click="vm.linkTo('/login')"
-          ng-if="!vm.isLoggedIn()">
-          <span class="glyphicon glyphicon-user glyphicon-lg"></span></button>
-
           <button class="btn btn-primary btn-lg btn-block sharp"
           ng-class="vm.isActiveTab('/profile')"
           ng-click="vm.linkTo('/profile')"
@@ -57,21 +50,29 @@ span.glyphicon-lg {
 
       </div>
     </div>
+
+
+    <!-- Show for user NOT logged in-->
+    <div class="row no-gutter" ng-if="!vm.isLoggedIn()">      
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <button class="btn btn-primary btn-lg btn-block sharp"
+          ng-class="vm.isActiveTab('/')"
+          ng-click="vm.linkTo('/')">
+        <span class="glyphicon glyphicon-home glyphicon-lg"></span></button>
+      </div>
+
+
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <button class="btn btn-primary btn-lg btn-block sharp"
+          ng-class="vm.isActiveTab('/login')"
+          ng-click="vm.linkTo('/login')"
+          ng-if="!vm.isLoggedIn()">
+          <span class="glyphicon glyphicon-user glyphicon-lg"></span></button>
+      </div>
+    </div>
+    
+    
       
-      <!-- <ul class="nav navbar-nav">
-        
-        
-        <li ng-if="vm.isLoggedIn()" ng-class="vm.isActiveTab('/collection')"><a href="#/collection"><span class="glyphicon glyphicon-heart glyphicon-lg"></span> </a></li>
-        <li ng-if="vm.isLoggedIn()" ng-class="vm.isActiveTab('/chat')"><a href="#/chat"><span class="glyphicon glyphicon-comment glyphicon-lg"></span></a></li>
-      </ul>
-      <ul ng-if="!vm.isLoggedIn()"
-        class="nav navbar-nav navbar-right">
-        <li ng-class="vm.isActiveTab('/signup')"><a href="#/signup"><span class="glyphicon glyphicon-user glyphicon-lg"></span> Sign Up</a></li>
-        <li ng-class="vm.isActiveTab('/login')"><a href="#/login"><span class="glyphicon glyphicon-log-in glyphicon-lg"></span> Login</a></li>
-      </ul>
-      <ul ng-if="vm.isLoggedIn()"
-        class="nav navbar-nav navbar-right">
-        <li><a class="btn" ng-click="vm.logout()"><span class="glyphicon glyphicon-log-in glyphicon-lg"></span> Logout</a></li>
-      </ul> -->
+    
     
 </div>
