@@ -69,6 +69,14 @@ function config($routeProvider, $httpProvider){
 				restricted: false
 			}
 		})
+		.when('/profile', {
+			templateUrl: 'views/auth/profile.html',
+			controller: 'ProfileCtrl',
+			controllerAs: 'vm',
+			access: {
+				restricted: true
+			}
+		})
 }
 
 function run($rootScope, $location, $window, AuthFactory, jwtHelper){

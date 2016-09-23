@@ -1,7 +1,8 @@
-<h1 class="text-center">Register</h1>
+
 
 <br><br>
-
+<h1 class="text-center">Register</h1>
+<br>
 <div class="row">
 <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
 	<div class="panel panel-danger" ng-if="vm.message">
@@ -16,40 +17,47 @@
 <form class="form-horizontal" 
 			name="vm.myForm" 
 			ng-submit="vm.registerUser()">
-		<fieldset>
-			<div class="form-group">
-				<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
-					<input type="email" 
-						required 
-						class="form-control" 
-						placeholder="Email"
-						ng-model="vm.username">
-				</div>
+	<fieldset>
+		<div class="form-group">
+			<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
+				<input type="email" 
+					required 
+					class="form-control" 
+					placeholder="Email"
+					ng-model="vm.username">
 			</div>
-			<div class="form-group">
-				<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
-					<input type="text" 
-						required 
-						class="form-control"  
-						ng-model="vm.name"
-						placeholder="Name">
-				</div>
+		</div>
+		<div class="form-group">
+			<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
+				<input type="text" 
+					required 
+					class="form-control"  
+					ng-model="vm.name"
+					placeholder="Name">
 			</div>
-			<div class="form-group">
-				<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
-					<input type="password" 
-						required 
-						class="form-control"  
-						ng-model="vm.password"
-						placeholder="Password">
-				</div>
+		</div>
+		<div class="form-group">
+			<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
+				<input type="password" 
+					required 
+					class="form-control"  
+					ng-model="vm.password"
+					placeholder="Password">
 			</div>
-			<div class="form-group">
-				<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
-					<button class="btn btn-block"	
-						ng-class="vm.myForm.$valid ?'btn-success':'disabled'" 
-						type="submit">Register</button>	
-				</div>	
-			</div>
-		</fieldset>
-	</form>	
+		</div>
+		<div class="form-group">
+			<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
+				<button class="btn btn-block btn-lg"	
+					ng-class="vm.myForm.$valid ?'btn-success':'disabled'" 
+					type="submit">Register</button>	
+			</div>	
+		</div>
+	</fieldset>
+</form>	
+
+<br><br><br>
+<div class="row">
+	<div class="col-lg-6 col-md-8 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
+	<a href="#/login" class="btn btn-lg btn-primary btn-block">login</a>
+	</div>
+</div>

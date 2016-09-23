@@ -1,6 +1,27 @@
 angular.module('myApp')
 	.controller('SignupCtrl', SignupCtrl)
-	.controller('LoginCtrl', LoginCtrl);
+	.controller('LoginCtrl', LoginCtrl)
+	.controller('ProfileCtrl', ProfileCtrl)
+
+function ProfileCtrl($location, $window, AuthFactory){
+	console.log('ProfileCtrl')
+	var vm = this;
+
+	vm.linkTo = (url) => {
+		$location.path(url)
+	}
+	vm.logout = () => {
+		// remove token from session
+		delete $window.sessionStorage.token;
+		
+		// remove user and login status to false
+		AuthFactory.isLoggedIn = false;
+		AuthFactory.loggedInUser = '';
+		AuthFactory.loggedInUserId = '';
+
+		$location.path('/')
+	}
+}
 
 
 function userLogin($http, $window, $location,AuthFactory, jwtHelper ,user, vm){
@@ -77,20 +98,14 @@ function LoginCtrl($q ,$window, AuthFactory, $http, $location, jwtHelper){
 		}
 	}
 
-	vm.logout = () => {
-		// remove token from session
-		delete $window.sessionStorage.token;
-		
-		// remove user and login status to false
-		AuthFactory.isLoggedIn = false;
-		AuthFactory.loggedInUser = '';
-
-		$location.path('/')
-	}
 
 	vm.isActiveTab = (url) => {
 		var currentPath = $location.path()
 		return (url === currentPath ? 'active' : '' )
+		
+	}
+	vm.linkTo = (url) =>{
+		$location.path(`${url}`)
 	}
 
 }

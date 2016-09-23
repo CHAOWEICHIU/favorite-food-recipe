@@ -2,20 +2,65 @@
 span.glyphicon-lg {
     font-size: 1.8em;
 }
+.btn.sharp {
+  border-radius:0;
+}
+#footerr{
+  position:fixed;
+  bottom:33px;
+  height:33px;
+  width:100%;
+}
+
+.no-gutter > [class*='col-'] {
+    padding-right:0;
+    padding-left:0;
+}
 </style>
-<nav class="navbar navbar-default navbar-fixed-bottom" ng-controller="LoginCtrl as vm">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span> 
-      </button>
+<div id="footerr" class="container" ng-controller="LoginCtrl as vm">
+    <div class="row no-gutter">
+
+      
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <button class="btn btn-primary btn-lg btn-block sharp"
+          ng-class="vm.isActiveTab('/')"
+          ng-click="vm.linkTo('/')">
+        <span class="glyphicon glyphicon-home glyphicon-lg"></span></button>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <button class="btn btn-primary btn-lg btn-block sharp" 
+          ng-class="vm.isActiveTab('/foods/add')"
+          ng-click="vm.linkTo('/foods/add')">
+          <span class="glyphicon glyphicon-plus glyphicon-lg"></span></button>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <button class="btn btn-primary btn-lg btn-block sharp"
+          ng-class="vm.isActiveTab('/collection')"
+          ng-click="vm.linkTo('/collection')">
+        <span class="glyphicon glyphicon-heart glyphicon-lg"></span></button>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <button class="btn btn-primary btn-lg btn-block sharp"
+          ng-class="vm.isActiveTab('/login')"
+          ng-click="vm.linkTo('/login')"
+          ng-if="!vm.isLoggedIn()">
+          <span class="glyphicon glyphicon-user glyphicon-lg"></span></button>
+
+          <button class="btn btn-primary btn-lg btn-block sharp"
+          ng-class="vm.isActiveTab('/profile')"
+          ng-click="vm.linkTo('/profile')"
+          ng-if="vm.isLoggedIn()">
+          <span class="glyphicon glyphicon-user glyphicon-lg"></span></button>
+
+      </div>
     </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li ng-class="vm.isActiveTab('/')"><a href="#/"><span class="glyphicon glyphicon-home glyphicon-lg"></span></a></li>
-        <li ng-if="vm.isLoggedIn()" ng-class="vm.isActiveTab('/foods/add')"><a href="#/foods/add"><span class="glyphicon glyphicon-plus glyphicon-lg"></span></a></li>
+      
+      <!-- <ul class="nav navbar-nav">
+        
+        
         <li ng-if="vm.isLoggedIn()" ng-class="vm.isActiveTab('/collection')"><a href="#/collection"><span class="glyphicon glyphicon-heart glyphicon-lg"></span> </a></li>
         <li ng-if="vm.isLoggedIn()" ng-class="vm.isActiveTab('/chat')"><a href="#/chat"><span class="glyphicon glyphicon-comment glyphicon-lg"></span></a></li>
       </ul>
@@ -27,7 +72,6 @@ span.glyphicon-lg {
       <ul ng-if="vm.isLoggedIn()"
         class="nav navbar-nav navbar-right">
         <li><a class="btn" ng-click="vm.logout()"><span class="glyphicon glyphicon-log-in glyphicon-lg"></span> Logout</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+      </ul> -->
+    
+</div>

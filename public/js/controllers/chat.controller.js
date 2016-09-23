@@ -1,8 +1,6 @@
 angular.module('myApp').controller('ChatCtrl', ChatCtrl)
 
 function ChatCtrl($scope, AuthFactory, $route, $window){
-	// $window.location.reload()
-	console.log('chat room')
 	var vm = this;
 	var socket = io.connect();
 	vm.me = AuthFactory.loggedInUser
