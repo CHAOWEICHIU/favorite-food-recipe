@@ -108,6 +108,12 @@
 </div><!-- Reviews -->
 
 
+<div ng-show="vm.food.created_user === vm.loggedInUser || !vm.isLoggedIn()">
+	<hr>
+	<br><br><br><br>
+	<h3 class="text-center text-warning">Login To Make Comment</h3>
+	
+</div>
 
 
 <div id="commentArea" ng-hide="vm.food.created_user === vm.loggedInUser || !vm.isLoggedIn()">
