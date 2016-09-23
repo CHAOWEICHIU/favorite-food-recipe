@@ -3,6 +3,17 @@
 const mongoose = require('mongoose');
 const Message = mongoose.model('Message');
 
+module.exports.addMessage = (created_user, msg) => {
+	console.log('start to save')
+	var newMsg = new Message({
+		created_user: created_user,
+		msg: msg		
+	})
+	newMsg.save((err)=>{
+		if(err) throw err;
+	})
+}
+
 function handleResStatus(err ,req, res, doc ,stauts){	
 	if(err){
 		res.status(500).send(err);

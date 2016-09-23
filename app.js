@@ -8,9 +8,10 @@ const express = require('express'),
 	  app = express(),
 	  bodyParser = require('body-parser'),
 	  server = require('http').createServer(app),
-	  io = require('socket.io').listen(server)
+	  io = require('socket.io').listen(server),
+	  messagesController = require('./api/controllers/messages.controller');
 
-
+console.log(messagesController)
 // Define port to run
 const port = process.env.PORT || 3000;
 
@@ -21,16 +22,11 @@ console.log(`listening on port ${port}`)
 
 io.sockets.on('connection', (socket)=>{
 	socket.on('send msg', (data)=>{
+		messagesController.addMessage(data.user, data.msg)
 		io.sockets.emit('get msg', data)
-		console.log(data)
 	})
 })
 
-// Add middleware to console.log every request
-// app.use((req,res,next)=>{
-// 	console.log(`${req.method} ${req.url}`);
-// 	next();
-// })
 
 // Set static directory before defining routes
 app.use(express.static(path.join(__dirname, 'public')))
