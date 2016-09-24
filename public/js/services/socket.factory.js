@@ -1,4 +1,6 @@
-angular.module('myApp').factory('socketio', function ($rootScope) {
+angular.module('myApp').factory('socketio', socketio)
+
+function socketio($rootScope){
   var socket = io.connect();
   return {
     on: function (eventName, callback) {
@@ -20,4 +22,4 @@ angular.module('myApp').factory('socketio', function ($rootScope) {
       })
     }
   };
-});
+}

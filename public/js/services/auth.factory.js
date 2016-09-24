@@ -4,13 +4,17 @@ function AuthFactory(){
 	return {
 		auth: auth,
 		loggedInUser: loggedInUser,
-		loggedInUserId: loggedInUserId
+		loggedInUserId: loggedInUserId,
+		chatRoomStarted: chatRoomStarted 
 	}
+
+	 
 
 	var auth = {
 		isLoggedIn: false
 	}
 
+	var chatRoomStarted = '';
 	var loggedInUser = '';
 	var loggedInUserId = '';
 }

@@ -1,8 +1,10 @@
 angular.module('myApp', ['ngRoute', 'angular-jwt'])
 	.config(config)
-	.run(run);
+	.run(run)
 
-function config($routeProvider, $httpProvider){
+
+function config($provide, $routeProvider, $httpProvider){
+	$provide.value('chatStarted', false)
 	$httpProvider.interceptors.push('AuthInterceptor')
 	$routeProvider
 		.when('/', {
@@ -87,6 +89,7 @@ function run($rootScope, $location, $window, AuthFactory, jwtHelper){
 		// Add user and login status to true in factory
 		AuthFactory.loggedInUser = decodedToken.name;
 		AuthFactory.loggedInUserId = decodedToken.id;
+		AuthFactory.chatRoomStarted = false;
 	}
 	$rootScope.$on('$routeChangeStart', (event, nextRoute, previousRoute)=>{
 		if(nextRoute.access !=='undefined' && nextRoute.access.restricted && !$window.sessionStorage.token && !AuthFactory.isLoggedIn && !AuthFactory.loggedInUserId){

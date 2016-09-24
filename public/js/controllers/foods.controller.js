@@ -41,8 +41,6 @@ function CollectionCtrl($q ,AuthFactory, UsersDataFactory, foodsDataFactory, $lo
 
 	}
 
-	
-	console.log(AuthFactory.loggedInUser)
 }
 
 

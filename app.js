@@ -11,7 +11,6 @@ const express = require('express'),
 	  io = require('socket.io').listen(server),
 	  messagesController = require('./api/controllers/messages.controller');
 
-console.log(messagesController)
 // Define port to run
 const port = process.env.PORT || 3000;
 
@@ -20,11 +19,46 @@ server.listen(port);
 console.log(`listening on port ${port}`)
 
 
+var users = [];
 io.sockets.on('connection', (socket)=>{
-	socket.on('send msg', (data)=>{
-		messagesController.addMessage(data.user, data.msg)
-		io.sockets.emit('get msg', data)
+	
+
+	
+	// disconnect
+	socket.on('disconnect', (data)=>{
+		if(!socket.user) return
+		console.log('disconnect',socket.user)
+		users.splice(users.indexOf(socket.user), 1)
+		console.log(`disconnected!!!!  remaind connected: ${users.length}`)
+		updateUsers();
 	})
+
+	
+	// listen to new msg
+	socket.on('msg', (msg)=>{
+		io.sockets.emit('get msg', msg)
+	})
+
+	// new user
+	socket.on('user', (user)=>{
+		socket.user = user;
+		users.push(user)
+
+		console.log(socket.user)
+		console.log(`connected users: ${users.length}`)
+		updateUsers()
+	})
+	
+
+
+
+	// Reuseable function --------------------
+	function updateUsers(){
+		io.sockets.emit('get users', users)
+	}
+	// ----------------------------------------
+
+
 })
 
 

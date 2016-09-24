@@ -17,7 +17,7 @@ function ProfileCtrl($location, $window, AuthFactory){
 		AuthFactory.isLoggedIn = false;
 		AuthFactory.loggedInUser = '';
 		AuthFactory.loggedInUserId = '';
-
+		AuthFactory.chatRoomStarted = false;
 		$location.path('/')
 	}
 }
@@ -36,6 +36,8 @@ function userLogin($http, $window, $location,AuthFactory, jwtHelper ,user, vm){
 			AuthFactory.isLoggedIn = true;
 			AuthFactory.loggedInUser = decodedToken.name;
 			AuthFactory.loggedInUserId = decodedToken.id;
+			AuthFactory.chatRoomStarted = false;
+			
 			// Add token to session
 			$window.sessionStorage.token = token;			
 			$location.path('/');
