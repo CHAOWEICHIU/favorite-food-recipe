@@ -4,7 +4,9 @@ function UsersDataFactory($http){
 	return {
 		postUserLikes: postUserLikes,
 		updateUserLikes: updateUserLikes,
-		getUser: getUser
+		getUser: getUser,
+		updateUser: updateUser,
+		getAllUsers: getAllUsers
 		
 	}
 
@@ -19,6 +21,14 @@ function UsersDataFactory($http){
 	function getUser(userId){
 		return $http.get(`/api/users/${userId}`).then(compeleted).catch(failed)
 	}
+	function updateUser(userId, updatedUser){
+		return $http.put(`/api/users/${userId}`, updatedUser)
+	}
+	function getAllUsers(){
+		return $http.get('/api/users').then(compeleted).catch(failed)
+	}
+
+	
 	
 
 

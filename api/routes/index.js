@@ -64,10 +64,14 @@ router
 	.get(likesController.likesGetAll)
 	.put(likesController.likeUpdateOne)
 	.post(likesController.likesAddOne)
+router
+	.route('/users')
+	.get(usersController.usersGetAll)
 	
 router
 	.route('/users/:userId')
 	.get(usersController.usersGetOne)
+	.put(usersController.userUpdateOne)
 
 router
 	.route('/messages')

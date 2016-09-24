@@ -20,6 +20,9 @@ var userSchema = new mongoose.Schema({
 	name:{
 		type: String
 	}, 
+	profileUrl:{
+		type: String
+	},
 	password:{
 		type:String,
 		required:true

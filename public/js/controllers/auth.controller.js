@@ -1,29 +1,6 @@
 angular.module('myApp')
 	.controller('SignupCtrl', SignupCtrl)
 	.controller('LoginCtrl', LoginCtrl)
-	.controller('ProfileCtrl', ProfileCtrl)
-
-function ProfileCtrl($location, $window, AuthFactory, $window){
-	var vm = this;
-	var socket = io.connect();
-
-	vm.linkTo = (url) => {
-		$location.path(url)
-	}
-	vm.logout = () => {
-		// remove token from session
-		delete $window.sessionStorage.token;
-		
-		// remove user and login status to false
-		AuthFactory.isLoggedIn = false;
-		AuthFactory.loggedInUser = '';
-		AuthFactory.loggedInUserId = '';
-		AuthFactory.chatRoomStarted = false;
-		$location.path('/');
-		$window.location.reload();
-	}
-}
-
 
 function userLogin($http, $window, $location,AuthFactory, jwtHelper ,user, vm){
 	$http.post('/api/users/login' ,user).then((response)=>{

@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 const User = mongoose.model('User');
 
 
+
+
 function handleResStatus(err, req, res, doc){	
 	if(err){
 		console.log('err')
@@ -20,15 +22,55 @@ function handleResStatus(err, req, res, doc){
 	}
 }
 
+module.exports.usersGetAll = (req, res)=>{
+	User.find().exec((err, users)=>{
+		if(err){
+			handleResStatus(err, req, res)	
+		} else {
+			handleResStatus(err, req, res, users)	
+		}
+		
+	})
+}
+
 module.exports.usersGetOne = (req, res)=>{
 	let userId = req.params.userId
 	User
 		.findById(userId)
 		.exec((err, user)=>{
-			handleResStatus(err, req, res, user);
+			if(err){
+				handleResStatus(err, req, res);	
+			} else {
+				handleResStatus(err, req, res, user);	
+			}
+			
 		})
 }
 
+
+module.exports.userUpdateOne = (req, res)=>{
+	var userId = req.params.userId;
+	User
+		.findById(userId)
+		// .select('-rooms')
+		.exec((err, user)=>{
+			if(err){
+				res.status(500).send('Error find the user!')
+			} else if (!user){
+				res.status(404).send('user not found')
+			} else {
+				user.username = req.body.username
+				user.name = req.body.name
+				user.password = req.body.password
+				user.likes = req.body.likes
+				user.profileUrl = req.body.profileUrl
+
+				user.save((err, updatedUser)=>{
+					handleResStatus(err, req, res, updatedUser)
+				})
+			}
+		})
+}
 
 module.exports.register = (req, res) => {
 	console.log('start to register new user')
