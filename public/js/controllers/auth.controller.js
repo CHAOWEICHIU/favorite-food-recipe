@@ -3,8 +3,9 @@ angular.module('myApp')
 	.controller('LoginCtrl', LoginCtrl)
 	.controller('ProfileCtrl', ProfileCtrl)
 
-function ProfileCtrl($location, $window, AuthFactory){
+function ProfileCtrl($location, $window, AuthFactory, $window){
 	var vm = this;
+	var socket = io.connect();
 
 	vm.linkTo = (url) => {
 		$location.path(url)
@@ -18,7 +19,8 @@ function ProfileCtrl($location, $window, AuthFactory){
 		AuthFactory.loggedInUser = '';
 		AuthFactory.loggedInUserId = '';
 		AuthFactory.chatRoomStarted = false;
-		$location.path('/')
+		$location.path('/');
+		$window.location.reload();
 	}
 }
 

@@ -22,16 +22,23 @@ console.log(`listening on port ${port}`)
 var users = [];
 io.sockets.on('connection', (socket)=>{
 	
-
-	
 	// disconnect
 	socket.on('disconnect', (data)=>{
 		if(!socket.user) return
-		console.log('disconnect',socket.user)
-		users.splice(users.indexOf(socket.user), 1)
+		
+		if(users.indexOf(socket.user) != -1){
+			users.splice(users.indexOf(socket.user), 1)	
+		}
+		
 		console.log(`disconnected!!!!  remaind connected: ${users.length}`)
 		updateUsers();
 	})
+
+	// socket.on('forceDisconnect', (user)=>{
+ //    	socket.disconnect();
+ //    	users.splice(users.indexOf(user), 1)
+ //    	updateUsers();
+	// });
 
 	
 	// listen to new msg

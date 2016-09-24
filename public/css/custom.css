@@ -1,0 +1,16 @@
+.btn.sharp {
+  border-radius:0;
+}
+.no-gutter > [class*='col-'] {
+    padding-right:0;
+    padding-left:0;
+}
+#circle {
+	border-radius: 50%;
+	height: 150px;
+	width: 150px;
+	float: left;
+	margin-left: 20px;
+	margin-top: 20px;
+	font-size: 90px;
+}	

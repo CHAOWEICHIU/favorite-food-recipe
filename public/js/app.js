@@ -85,8 +85,9 @@ function run($rootScope, $location, $window, AuthFactory, jwtHelper){
 	if($window.sessionStorage.token){
 		var token = $window.sessionStorage.token;
 		var decodedToken = jwtHelper.decodeToken(token);
-					
+		
 		// Add user and login status to true in factory
+		AuthFactory.isLoggedIn = true;
 		AuthFactory.loggedInUser = decodedToken.name;
 		AuthFactory.loggedInUserId = decodedToken.id;
 		AuthFactory.chatRoomStarted = false;
