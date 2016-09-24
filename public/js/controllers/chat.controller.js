@@ -11,7 +11,6 @@ function ChatCtrl($scope, AuthFactory, $route, $window, socketio, messagesFacotr
 		initMessages();
 	}
 	
-	console.log(AuthFactory)
 	
 	
 	
@@ -40,7 +39,6 @@ function ChatCtrl($scope, AuthFactory, $route, $window, socketio, messagesFacotr
 		socketio.on('get users', (users)=>{
 			messagesFacotry.users = users;
 			vm.users = users
-			appendCurrentUsersToView(users)
 		})
 	}
 
@@ -60,13 +58,7 @@ function ChatCtrl($scope, AuthFactory, $route, $window, socketio, messagesFacotr
 
 
 	// helper functions ----------------------------------------
-	function appendCurrentUsersToView(users){
-		console.log(`there are ${users.length} in the room`, vm.users)
-	}
-
 	function appendOtherMessageToView(user, msg){
-		console.log(`${user}: ${msg}  append`)
-		
 		let template = `
 			<div class="row">
 				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
@@ -81,7 +73,6 @@ function ChatCtrl($scope, AuthFactory, $route, $window, socketio, messagesFacotr
 		$('#msgBox').prepend(template)
 	}
 	function appendSelfMessageToView(user, msg){
-		console.log(`Self: ${msg}  append`)
 		let template = `
 			<div class="row">
 				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
