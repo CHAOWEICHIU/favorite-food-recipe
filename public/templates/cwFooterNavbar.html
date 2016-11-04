@@ -21,28 +21,32 @@ span.glyphicon-lg {
     <!-- Show for user logged in-->
     <div class="row no-gutter" ng-if="vm.isLoggedIn()">      
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-        <button class="btn btn-primary btn-lg btn-block sharp"
+        <button id="home"
+          class="btn btn-primary btn-lg btn-block sharp"
           ng-class="vm.isActiveTab('/')"
           ng-click="vm.linkTo('/')">
         <span class="glyphicon glyphicon-home glyphicon-lg"></span></button>
       </div>
 
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-        <button class="btn btn-primary btn-lg btn-block sharp" 
+        <button id="add"
+          class="btn btn-primary btn-lg btn-block sharp" 
           ng-class="vm.isActiveTab('/foods/add')"
           ng-click="vm.linkTo('/foods/add')">
           <span class="glyphicon glyphicon-plus glyphicon-lg"></span></button>
       </div>
 
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-        <button class="btn btn-primary btn-lg btn-block sharp"
+        <button id="collection"
+          class="btn btn-primary btn-lg btn-block sharp"
           ng-class="vm.isActiveTab('/collection')"
           ng-click="vm.linkTo('/collection')">
         <span class="glyphicon glyphicon-heart glyphicon-lg"></span></button>
       </div>
 
       <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-          <button class="btn btn-primary btn-lg btn-block sharp"
+          <button id="profile"
+          class="btn btn-primary btn-lg btn-block sharp"
           ng-class="vm.isActiveTab('/profile')"
           ng-click="vm.linkTo('/profile')"
           ng-if="vm.isLoggedIn()">
