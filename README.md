@@ -69,7 +69,7 @@ and [his video](https://www.youtube.com/watch?v=vqAaMVoKz1c)
 
 ---------------------------------------------------------------
 
-## Extra Link 1
+## Learing - Extra Link 1
 
 > [Custom Real World Functions](https://github.com/CHAOWEICHIU/ccw-custom-functions)
 
@@ -81,7 +81,7 @@ validZipcode('48326')   		 // return true
 // More ...
 ```
 
-## Extra Link 2
+## Learing - Extra Link 2
 
 > [Declarative Style Demo](https://github.com/CHAOWEICHIU/functional-javascript)
 
