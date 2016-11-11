@@ -35,10 +35,12 @@ It is an application where has all recipes around the world. You would be able t
 > 1. To make real-time update to all clients (chat room in this application)
 
 
-> Bootstrap
+> :fire: Bootstrap
 
 > 1. Applied a responsive design that fitted all users and devices from desktop to mobile phone using.
 
+
+---------------------------------------------------------------
 
 > **More Coming...**
 
@@ -61,7 +63,7 @@ I was inspired by [MPJ](https://www.youtube.com/watch?v=TWBDa5dqrl8)
 and [his video](https://www.youtube.com/watch?v=vqAaMVoKz1c)
 
 
-------------------------------------------
+---------------------------------------------------------------
 
 ## Extra Link 1
 
@@ -100,7 +102,7 @@ request('magicURL')
 		console.log(result) // 30
 	})
 ```
-------------------------------------------
+---------------------------------------------------------------
 
 
 
