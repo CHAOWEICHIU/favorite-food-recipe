@@ -16,25 +16,29 @@ It is an application where has all recipes around the world. You would be able t
 
 > :fire: Angular
 
-> MVC pattern, including objects, module patterns and functions that encapsulated business logic, handle form validation and DOM manipulation.
+> 1. MVC pattern, including objects, module patterns and functions that encapsulated business logic, handle form validation and DOM manipulation.
 
-> Single Page Application with the goal of providing a user experience similar to that of a desktop application.
+> 2. Single Page Application with the goal of providing a user experience similar to that of a desktop application.
  
-> Custom-directives to extend the functionality of HTML
+> 3. Custom-directives to extend the functionality of HTML
 
-> Angular Custom Filter to extend built-in Angular filters
+> 4. Angular Custom Filter to extend built-in Angular filters
 
-- JSON Web Token 
+
+> :fire: JSON Web Token 
+
+> 1. To secure client credential and without losing the flexibility of a client making request to server to perform CRUD actions to RESTful API
+
+
+> :fire: Socket.IO	
  
- - To secure client credential and without losing the flexibility of a client making request to server to perform CRUD actions to RESTful API
+> 1. To make real-time update to all clients (chat room in this application)
 
-- Socket.IO	
- 
- - To make real-time update to all clients (chat room in this application)
 
-- Bootstrap
+> Bootstrap
 
- - Applied a responsive design that fitted all users and devices from desktop to mobile phone using.
+> 1. Applied a responsive design that fitted all users and devices from desktop to mobile phone using.
+
 
 > **More Coming...**
 
