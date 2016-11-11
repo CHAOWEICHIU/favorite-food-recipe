@@ -36,6 +36,12 @@ It is an application where has all recipes around the world. You would be able t
 
  - Applied a responsive design that fitted all users and devices from desktop to mobile phone using.
 
+- More Coming...
+
+ - Oath2
+
+  - User would be able to login by using their Gmail account/twitter/facebook
+
 ## About me
 
 > :fire: Full Stack Web Developer
