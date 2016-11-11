@@ -1,7 +1,7 @@
 # [Food Recipes Application](https://ccw-food-api.herokuapp.com/#/)
 It is an application where has all recipes around the world. You would be able to see what ingredient that you need, what steps that you need to take in order to make the dish.
 
-> For Users
+## What can you do here?
 
 > :heart: Search their favorite food recipes
 
@@ -11,6 +11,30 @@ It is an application where has all recipes around the world. You would be able t
 
 > :heart: Live chat with people
 
+
+## Tech Summary
+
+- Angular
+ 
+ - MVC pattern, including objects, module patterns and functions that encapsulated business logic, handle form validation and DOM manipulation.
+
+ - Single Page Application with the goal of providing a user experience similar to that of a desktop application.
+ 
+ - Custom-directives to extend the functionality of HTML
+
+ - Angular Custom Filter to extend built-in Angular filters
+
+- JSON Web Token 
+ 
+ - To secure client credential and without losing the flexibility of a client making request to server to perform CRUD actions to RESTful API
+
+- Socket.IO	
+ 
+ - To make real-time update to all clients (chat room in this application)
+
+- Bootstrap
+
+ - Applied a responsive design that fitted all users and devices from desktop to mobile phone using.
 
 ## About me
 
