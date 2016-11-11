@@ -6,10 +6,13 @@ It is an application where has all recipes around the world. You would be able t
 
 > For Users
 
-:heart: Search their favorite food recipes
-:heart: Create their favorite food recipes
-:heart: Rate their favorite food recipes
-:heart: Live chat with people
+> :heart: Search their favorite food recipes
+
+> :heart: Create their favorite food recipes
+
+> :heart: Rate their favorite food recipes
+
+> :heart: Live chat with people
 
 
 
