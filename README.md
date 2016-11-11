@@ -46,6 +46,10 @@ It is an application where has all recipes around the world. You would be able t
 
 > :blue_heart: Oath2 - User would be able to login by using their Gmail account/twitter/facebook
 
+
+---------------------------------------------------------------
+
+
 ## About me
 
 > :fire: Full Stack Web Developer
