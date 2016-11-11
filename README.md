@@ -34,7 +34,7 @@ and [his video](https://www.youtube.com/watch?v=vqAaMVoKz1c)
 
 ------------------------------------------
 
-## Extra Link
+## Extra Link 1
 
 > [Custom Real World Functions](https://github.com/CHAOWEICHIU/ccw-custom-functions)
 
@@ -45,6 +45,8 @@ truncateString("how are you", 5) // return how a ...
 validZipcode('48326')   		 // return true
 // More ...
 ```
+
+## Extra Link 2
 
 > [Declarative Style Demo](https://github.com/CHAOWEICHIU/functional-javascript)
 
