@@ -14,15 +14,15 @@ It is an application where has all recipes around the world. You would be able t
 
 ## Tech Summary
 
-- Angular
- 
- - MVC pattern, including objects, module patterns and functions that encapsulated business logic, handle form validation and DOM manipulation.
+> :fire: Angular
 
- - Single Page Application with the goal of providing a user experience similar to that of a desktop application.
- 
- - Custom-directives to extend the functionality of HTML
+> MVC pattern, including objects, module patterns and functions that encapsulated business logic, handle form validation and DOM manipulation.
 
- - Angular Custom Filter to extend built-in Angular filters
+> Single Page Application with the goal of providing a user experience similar to that of a desktop application.
+ 
+> Custom-directives to extend the functionality of HTML
+
+> Angular Custom Filter to extend built-in Angular filters
 
 - JSON Web Token 
  
